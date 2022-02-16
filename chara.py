@@ -4,24 +4,64 @@ import ujson
 
 
 def chara(path: str):
+    #開啟SKill json
+    with open('Skill.json','r',encoding='utf-8')as f:
+        database=ujson.load(f)
+        f.close()
+
+    #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
             path = path+'\\'
+
+        #檢查路徑內資料夾
         dirlist = os.listdir(path)
         for dir in dirlist:
             if not os.path.isdir(path+dir):
                 break
+                
+            #開檔處理
             else:
                 nowfile = path+dir+'\Chara.xml'
-                with open(nowfile, 'r', encoding='utf-8')as f:
-                    data = f.read()
-                    data = BeautifulSoup(data, 'lxml')
-                    f.close()
-                ranks = data.find('ranks')
-                for chararank in ranks.find_all('chararankdata'):
-                    if not chararank.find('type').string=='1' or int(chararank.find('index').string)==1 :
-                        chararank.decompose()
-                #print(ranks.prettify())
+                try:
+                    with open(nowfile, 'r', encoding='utf-8')as f:
+                        data = f.read()
+                        data = BeautifulSoup(data, 'lxml')
+                        f.close()
+                    ranks = data.find('ranks')
+                    for chararank in ranks.find_all('chararankdata'):
+                        skillid=-1
+
+                        #刪除不需要的資料
+                        if not chararank.find('type').string=='1' or int(chararank.find('index').string)==1 :
+                            chararank.decompose()
+                        else:
+
+                            #修改tag名稱
+                            for tags in chararank.find_all('rewardskillseed'):
+                                tags.name='skill'
+                            
+                            #讀取技能名稱並更改
+                            skillname=chararank.skill.skill.str.string
+                            if skillname.endswith('×5'):
+                                skillname=skillname.replace('×5','')
+                            elif skillname.endswith('×1'):
+                                skillname=skillname.replace('×1','') 
+                            if skillname=='Invalid':
+                                skillid=-1
+                            else:
+                                for item in database:
+                                    if skillname==item['name']:
+                                        skillid=item['id']
+                                        break
+                            chararank.skill.skill.id.string=skillid
+                            chararank.skill.skill.str.string=skillname
+                    '''
+                    測試用:
+                    print(data.prettify())
+                    '''
+                except:
+                    print(f'[ERROR] {nowfile} can not read!')
     else:
         print('[ERROR] path is not exist')
 
