@@ -43,7 +43,7 @@ def chara(path: str):
                         #修改tag名稱
                         for tags in chararank.find_all('rewardSkillSeed'):
                             tags.name='skill'
-                            
+                        
                         #讀取技能名稱並更改
                         skillname=chararank.skill.skill.str.string
                         if skillname.endswith('×5'):
@@ -59,21 +59,25 @@ def chara(path: str):
                                     break
                         chararank.skill.skill.id.string=skillid
                         chararank.skill.skill.str.string=skillname
-                            
+                
                 #新增標籤 firstskill
                 charaskill=data.find('skill').str.string
-                charaskillid=data.find('skill').id.string
+                if charaskill=='Invalid':
+                    charaskill='スキルなし'
+                    charaskillid='0'
+                else:
+                    charaskillid=data.find('skill').id.string
                 newtag=BeautifulSoup('<firstSkill><id>'+charaskillid+'</id><str>'+charaskill+'</str><data /></firstSkill>','xml')
                 data.CharaData.defaultHave.insert_after(newtag)
-
+                
                 #寫檔
                 with open(nowfile, 'w', encoding='utf-8')as f:
-                    f.write(data.prettify())
+                    f.write(str(data))
                     f.close()
                 
                 '''
                 #測試用:
-                print(data.prettify())
+                print(data)
                 os.system('PAUSE')
                 '''
         print('[SUCCESS] All Done!')
