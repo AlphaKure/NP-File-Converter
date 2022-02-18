@@ -9,7 +9,6 @@ def chara(path: str):
     with open('dev/data/Skill.json','r',encoding='utf-8')as f:
         database=ujson.load(f)
         f.close()
-    print(database)
     
     #檢查路徑
     if os.path.isdir(path):
