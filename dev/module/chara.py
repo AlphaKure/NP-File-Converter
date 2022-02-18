@@ -4,11 +4,13 @@ import ujson
 
 
 def chara(path: str):
+
     #開啟SKill json
-    with open('Skill.json','r',encoding='utf-8')as f:
+    with open('dev/data/Skill.json','r',encoding='utf-8')as f:
         database=ujson.load(f)
         f.close()
-
+    print(database)
+    
     #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
@@ -75,15 +77,18 @@ def chara(path: str):
                     f.write(str(data))
                     f.close()
                 
-                '''
+                
+                ''' 
                 #測試用:
                 print(data)
                 os.system('PAUSE')
                 '''
+
         print('[SUCCESS] All Done!')
     else:
         print('[ERROR] path is not exist')
-
+    
+    
 
 if __name__ == '__main__':
     chara(str(input()))
