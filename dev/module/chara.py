@@ -10,6 +10,19 @@ def chara(path: str):
         database=ujson.load(f)
         f.close()
     
+    #開啟設定json 獲得WorkSort.xml位置
+    with open('setting.json','r',encoding='utf-8')as f:
+        setting=ujson.load(f)
+        f.close()
+    p_WorkS=setting['WorksSort.xml_path']
+
+    #讀取WorkSort.xml
+    with open(p_WorkS,'r',encoding='utf-8')as f:
+        work = f.read()
+        work = BeautifulSoup(work, 'xml')
+        f.close()
+    
+
     #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
@@ -70,7 +83,26 @@ def chara(path: str):
                     charaskillid=data.find('skill').id.string
                 newtag=BeautifulSoup('<firstSkill><id>'+charaskillid+'</id><str>'+charaskill+'</str><data /></firstSkill>','xml')
                 data.CharaData.defaultHave.insert_after(newtag)
+
+                workid=data.works.id.string
+                workstr=data.works.str.string
+                isFind=False
+                for StringID in work.find_all('StringID'):
+                    if StringID.id.string==workid and StringID.str.string==workstr:
+                        isFind=True
+                        break
+                    elif StringID.str.string==workstr and StringID.id.string!=workid:
+                        data.works.id.string=StringID.id.string
+                        break
+                    else:
+                        continue
                 
+                if not isFind:
+                    tag=BeautifulSoup('<StringID><id>'+workid+'</id><str>'+workstr+'</str><data /></StringID>','xml')
+                    work.SortList.append(tag)
+                    with open(p_WorkS,'w',encoding='utf-8')as f:
+                        f.write(str(work))
+                        f.close()
                 #寫檔
                 with open(nowfile, 'w', encoding='utf-8')as f:
                     f.write(str(data))
