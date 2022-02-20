@@ -42,13 +42,15 @@
 
 &emsp;&emsp;[music] 修改資料功能完成。
 
+2022/2/20
+
+&emsp;&emsp;[chara] WorkSort檢查功能完成。
+
 </p>
 
 ## 尚未完成的功能
 
-&emsp;1.角色分類資料更新
-
-&emsp;2.整合
+&emsp;1.整合
 
 
 ## 運作原理
