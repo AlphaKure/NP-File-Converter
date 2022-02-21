@@ -2,16 +2,41 @@ import os
 import ujson
 import shutil
 
-def cue(path:str):
+from ERROR import ERRORReport
 
+def cue(path:str):
+    '''
+    path=Path to cueFile folder
+    '''
     #讀取設定 
     with open('setting.json','r',encoding='utf-8')as f:
         setting=ujson.load(f)
-        f.close()
+        f.close()    
     deretore=setting['deretore']
     critool=setting['critool']
     key=setting['key']
     sat=setting['sat']
+
+    #檢查setting
+    if deretore=='':
+        ERRORReport('setting',5)
+        return
+    if not deretore.endswith('hcaenc.exe'):
+        ERRORReport('setting',6)
+    if critool=='':
+        ERRORReport('setting',7)
+        return
+    if not deretore.endswith('index.js'):
+        ERRORReport('setting',8)
+    if key=='':
+        ERRORReport('setting',9)
+        return
+    if sat=='':
+        ERRORReport('setting',10)
+        return
+    if not sat.endswith('AcbEditor.exe'):
+        ERRORReport('setting',11)
+        return
 
     #檢查path
     if os.path.isdir(path):
@@ -25,8 +50,9 @@ def cue(path:str):
             for file in filelist:
                 if file.endswith('.acb'):
                     target_acb=path+dir+'\\'+file
+                    print(f'[INFO] Now reading {target_acb}')
                     tmpdir=(path+dir+'\\'+file).replace('.acb','\\')
-            os.system(f'node {critool}index.js acb2wavs -k {key} {target_acb} ')
+            os.system(f'node {critool} acb2wavs -k {key} {target_acb} ')
             tmplist=os.listdir(tmpdir)
             filecount=len(tmplist)
 
@@ -39,20 +65,22 @@ def cue(path:str):
                     newname=tmpdir+'000'+str(i)+'_streaming.wav'
                 os.rename(nowfile,newname)
                 os.system(f'{deretore} {newname}')
+                print(f'[INFO] {target_acb} Convert success')    
         
             #刪除轉換前檔案
             tmplist=os.listdir(tmpdir)
             for file in tmplist:
                 if file.endswith('.wav'):
-                    os.remove(tmpdir+file)
+                    os.remove(tmpdir+file)    
             
             #重新包裝
             os.system(f'{sat} {tmpdir[:-1]}')
             shutil.rmtree(tmpdir)
-            
+          
+        print('[SUCCESS] CueFile convert all done!')    
     else:
-        print('[ERROR] path not found!')
-        
+        ERRORReport('cue',99)
+        return
 
 
 

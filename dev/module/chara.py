@@ -1,27 +1,44 @@
+from distutils.log import ERROR
 import os
 from bs4 import BeautifulSoup
 import ujson
 
+from ERROR import ERRORReport
+
 
 def chara(path: str):
-
+    '''
+    path=Path to chara folder
+    '''
     #開啟SKill json
-    with open('dev/data/Skill.json','r',encoding='utf-8')as f:
-        database=ujson.load(f)
-        f.close()
+    try:
+        with open('dev/data/Skill.json','r',encoding='utf-8')as f:
+            database=ujson.load(f)
+            f.close()
+    except:
+        ERROR.ERRORReport('chara',1)
+        return
+        
     
     #開啟設定json 獲得WorkSort.xml位置
-    with open('setting.json','r',encoding='utf-8')as f:
-        setting=ujson.load(f)
-        f.close()
-    p_WorkS=setting['WorksSort.xml_path']
+    try:
+        with open('setting.json','r',encoding='utf-8')as f:
+            setting=ujson.load(f)
+            f.close()
+        p_WorkS=setting['WorksSort.xml_path']
+    except:
+        ERROR.ERRORReport('chara',2)
+        return
 
     #讀取WorkSort.xml
-    with open(p_WorkS,'r',encoding='utf-8')as f:
-        work = f.read()
-        work = BeautifulSoup(work, 'xml')
-        f.close()
-    
+    try:
+        with open(p_WorkS,'r',encoding='utf-8')as f:
+            work = f.read()
+            work = BeautifulSoup(work, 'xml')
+            f.close()
+    except:
+        ERROR.ERRORReport('chara',3)
+        return
 
     #檢查路徑
     if os.path.isdir(path):
@@ -37,26 +54,30 @@ def chara(path: str):
             #開檔處理
             else:
                 nowfile = path+dir+'\Chara.xml'
+                print(f'[INFO] Now reading {nowfile}')
                 try:
                     with open(nowfile, 'r', encoding='utf-8')as f:
                         data = f.read()
                         data = BeautifulSoup(data, 'xml')
                         f.close()
                 except:
-                    print(f'[ERROR] {nowfile} can not read!')
-                    break
+                    ERRORReport(nowfile,4)
+                    return
                 ranks = data.find('ranks')
                 for chararank in ranks.find_all('CharaRankData'):
                     skillid=-1
 
                     #刪除不需要的資料
-                    if not chararank.find('type').string=='1' or int(chararank.find('index').string)==1 :
+                    if not chararank.find('type').string=='1' or chararank.find('index').string=='1' :
                         chararank.decompose()
                     else:
-
+                        
                         #修改tag名稱
-                        for tags in chararank.find_all('rewardSkillSeed'):
-                            tags.name='skill'
+                        try:
+                            for tags in chararank.find_all('rewardSkillSeed'):
+                                tags.name='skill'
+                        except:
+                            pass
                         
                         #讀取技能名稱並更改
                         skillname=chararank.skill.skill.str.string
@@ -107,7 +128,7 @@ def chara(path: str):
                 with open(nowfile, 'w', encoding='utf-8')as f:
                     f.write(str(data))
                     f.close()
-                
+                print(f'[INFO] {nowfile} Converter success!')
                 
                 ''' 
                 #測試用:
@@ -115,9 +136,10 @@ def chara(path: str):
                 os.system('PAUSE')
                 '''
 
-        print('[SUCCESS] All Done!')
+        print('[SUCCESS] chara convert all done!')
     else:
-        print('[ERROR] path is not exist')
+        ERRORReport('chara',99)
+        return
     
     
 

@@ -2,8 +2,12 @@ from bs4 import BeautifulSoup
 import os
 import shutil
 
-def music(path:str):
+from ERROR import ERRORReport
 
+def music(path:str):
+    '''
+    path=Path to music folder
+    '''
     #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
@@ -15,13 +19,14 @@ def music(path:str):
 
             ULTIMA=False
             nowfile=path+dir+'\Music.xml'
+            print(f'[INFO] Now reading {nowfile}')
             try:
                 with open(nowfile, 'r', encoding='utf-8')as f:
                     data = f.read()
                     data = BeautifulSoup(data, 'xml')
             except:
-                print(f'[ERROR] {nowfile} can not read!')
-                break
+                ERRORReport(nowfile,4)
+                return
                 
             #檢查disableFlag和firstLock
             if data.disableFlag.string=='true':
@@ -112,14 +117,17 @@ def music(path:str):
             with open(nowfile, 'w', encoding='utf-8')as f:
                 f.write(str(data))
                 f.close()
-            
+            print(f'[INFO] {nowfile} Convert success')   
+
             '''
             print(data)
             '''
+        print('[SUCCESS] Music convert all done!') 
                         
                 
     else:
-        print('[ERROR] path is not exist')
+        ERRORReport('music',99)
+        return
 
                 
                 

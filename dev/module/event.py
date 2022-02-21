@@ -1,8 +1,12 @@
 from bs4 import BeautifulSoup
 import os 
 
+from ERROR import ERRORReport
+
 def event(path:str):
-    
+    '''
+    path=Path to event folder
+    '''
     #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
@@ -12,14 +16,15 @@ def event(path:str):
         dirlist=os.listdir(path)
         for dir in dirlist:
             nowfile=path+dir+'\Event.xml'
+            print(f'[INFO] Now reading {nowfile}')    
             try:
                 with open(nowfile, 'r', encoding='utf-8')as f:
                     data = f.read()
                     data = BeautifulSoup(data, 'xml')
                     f.close()
             except:
-                print(f'[ERROR] {nowfile} can not read!')
-                break
+                ERRORReport(nowfile,4)
+                return
         
             if data.alwaysOpen.string=='false':
                 data.alwaysOpen.string='true'
@@ -31,14 +36,16 @@ def event(path:str):
             with open(nowfile, 'w', encoding='utf-8')as f:
                 f.write(str(data))
                 f.close()
+            print(f'[INFO] {nowfile} Convert success')        
         
-        print('[SUCCESS] All Done!')
+        print('[SUCCESS] Event convert all done!')
                 
         
 
 
     else:
-        print('[ERROR] path is not exist')
+        ERRORReport('event',99)
+        return
 
 if __name__=='__main__':
     event(str(input()))
