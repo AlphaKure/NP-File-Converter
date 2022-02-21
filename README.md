@@ -7,14 +7,16 @@
 <li><a href="#使用到的工具">使用到的工具</a></li>
 <li><a href="#開發紀錄">開發紀錄</a></li>
 <li><a href="#尚未完成的功能">尚未完成的功能</a></li>
+<li><a href="#使用方法">使用方法</a></li>
 <li><a href="#運作原理">運作原理</a></li>
+
 
 ## 使用到的工具
 
 <li><a href="https://github.com/kohos/CriTools">CriTools</a></li>
 <li><a href="https://github.com/OpenCGSS/DereTore">deretore</a></li>
 <li><a href="https://github.com/blueskythlikesclouds/SonicAudioTools">SonicAudioTools</a></li>
-<li>python使用os、shutil、beautifulsoup套件</li>
+<li>python使用os、shutil、beautifulsoup、套件</li>
 
 
 ## 開發紀錄
@@ -51,12 +53,17 @@
 ## 尚未完成的功能
 
 <p>
-&emsp;1.錯誤和成功訊息回報
 
-&emsp;2.整合
+&emsp;1.整合
 
 </p>
+
+## 使用方法
+
+待補..
 
 ## 運作原理
 
 待補..
+
+
