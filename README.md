@@ -16,7 +16,7 @@
 <li><a href="https://github.com/kohos/CriTools">CriTools</a></li>
 <li><a href="https://github.com/OpenCGSS/DereTore">deretore</a></li>
 <li><a href="https://github.com/blueskythlikesclouds/SonicAudioTools">SonicAudioTools</a></li>
-<li>python使用os、shutil、beautifulsoup、套件</li>
+<li>python使用os、shutil、beautifulsoup、ujson套件</li>
 
 
 ## 開發紀錄
@@ -48,6 +48,9 @@
 
 &emsp;&emsp;[chara] WorkSort檢查功能完成。
 
+2022/2/21
+
+&emsp;&emsp;修正bug，新增方便設定的程式
 </p>
 
 ## 尚未完成的功能
@@ -60,7 +63,10 @@
 
 ## 使用方法
 
+### 第一步：設定
+
 待補..
+
 
 ## 運作原理
 
