@@ -58,7 +58,6 @@ def music(path:str):
                     if id=='4' and musicdata.str.string=='Ultima':
                         level=musicdata.level.string
                         Dec=musicdata.levelDecimal.string
-                        file=musicdata.file.path.string
                         musicdata.decompose()
                     elif id=='5':
                         musicdata.id.string='4'
@@ -78,7 +77,7 @@ def music(path:str):
                     if id=='3':
                         musicdata.level.string=level
                         musicdata.levelDecimal.string=Dec
-                        musicdata.file.path.string=file
+                        musicdata.file.path.string=newnumber+'_04.c2s'
                     else:
                         musicdata.path.string=newnumber+'_0'+id+'.c2s'
 
