@@ -1,4 +1,3 @@
-from distutils.log import ERROR
 import os
 from bs4 import BeautifulSoup
 import ujson
@@ -16,7 +15,7 @@ def chara(path: str):
             database=ujson.load(f)
             f.close()
     except:
-        ERROR.ERRORReport('chara',1)
+        ERRORReport('chara',1)
         return
         
     
@@ -27,7 +26,7 @@ def chara(path: str):
             f.close()
         p_WorkS=setting['WorksSort.xml_path']
     except:
-        ERROR.ERRORReport('chara',2)
+        ERRORReport('chara',2)
         return
 
     #讀取WorkSort.xml
@@ -37,7 +36,7 @@ def chara(path: str):
             work = BeautifulSoup(work, 'xml')
             f.close()
     except:
-        ERROR.ERRORReport('chara',3)
+        ERRORReport('chara',3)
         return
 
     #檢查路徑
