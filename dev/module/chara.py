@@ -95,14 +95,15 @@ def chara(path: str):
                         chararank.skill.skill.str.string=skillname
                 
                 #新增標籤 firstskill
-                charaskill=data.find('skill').str.string
-                if charaskill=='Invalid':
-                    charaskill='スキルなし'
-                    charaskillid='0'
-                else:
-                    charaskillid=data.find('skill').id.string
-                newtag=BeautifulSoup('<firstSkill><id>'+charaskillid+'</id><str>'+charaskill+'</str><data /></firstSkill>','xml')
-                data.CharaData.defaultHave.insert_after(newtag)
+                if not data.find('firstSkill'):
+                    charaskill=data.find('skill').str.string
+                    if charaskill=='Invalid':
+                        charaskill='スキルなし'
+                        charaskillid='0'
+                    else:
+                        charaskillid=data.find('skill').id.string
+                    newtag=BeautifulSoup('<firstSkill><id>'+charaskillid+'</id><str>'+charaskill+'</str><data /></firstSkill>','xml')
+                    data.CharaData.defaultHave.insert_after(newtag)
 
                 workid=data.works.id.string
                 workstr=data.works.str.string
