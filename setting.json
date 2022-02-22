@@ -3,5 +3,14 @@
     "sat":"",
     "critool":"",
     "key":"",
-    "WorksSort.xml_path":""
+    "WorksSort.xml_path":"",
+
+    "cue":"True",
+    "chara":"True",
+    "event":"True",
+    "map":"True",
+    "music":"True",
+    "chara_defaultHave":"False",
+    "music_fix_firstLock":"True",
+    "music_fix_disableFlag":"True"
 }
