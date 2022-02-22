@@ -18,6 +18,7 @@ def setting():
         print('[2]critool:You need to point to index.js in critool.')
         print('[3]key:You need to set acb key(17 digits decimal).')
         print('[4]WorksSort.xml_path:You need to point to WorkSort.xml.')
+        print('[5]Exit')
         num=int(input('Enter the number:'))
         if num==0:
             pick='deretore'
@@ -28,7 +29,9 @@ def setting():
         elif num==3:
             pick='key'
         elif num==4:
-            pick='WorksSort.xml_path'    
+            pick='WorksSort.xml_path'
+        elif num==5:
+            return    
         string=str(input('Setting Value:'))
         database[pick]=string
         with open('setting.json','w',encoding='utf-8')as f:
