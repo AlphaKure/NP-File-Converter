@@ -26,7 +26,7 @@ def cue(path:str):
     if critool=='':
         ERRORReport('setting',7)
         return
-    if not deretore.endswith('index.js'):
+    if not critool.endswith('index.js'):
         ERRORReport('setting',8)
     if key=='':
         ERRORReport('setting',9)
@@ -55,6 +55,7 @@ def cue(path:str):
             os.system(f'node {critool} acb2wavs -k {key} {target_acb} ')
             tmplist=os.listdir(tmpdir)
             filecount=len(tmplist)
+            tmplist.sort(key=lambda x:int(x.split('.')[0].split('_')[1]))
 
             #重新編號命名
             for i in range(0,filecount):
@@ -65,7 +66,7 @@ def cue(path:str):
                     newname=tmpdir+'000'+str(i)+'_streaming.wav'
                 os.rename(nowfile,newname)
                 os.system(f'{deretore} {newname}')
-                print(f'[INFO] {target_acb} Convert success')    
+            print(f'[INFO] {target_acb} Convert success')    
         
             #刪除轉換前檔案
             tmplist=os.listdir(tmpdir)
@@ -79,7 +80,7 @@ def cue(path:str):
           
         print('[SUCCESS] CueFile convert all done!')    
     else:
-        ERRORReport('cue',99)
+        ERRORReport('cueFile',99)
         return
 
 
