@@ -52,7 +52,14 @@
 
 2022/2/21
 
-&emsp;&emsp;修正bug，新增方便設定的程式
+&emsp;&emsp;修正bug，新增方便設定的程式。
+	
+2022/2/22
+
+&emsp;&emsp;[cueFile]修正bug。
+	
+&emsp;&emsp;[map] cgauge標籤新增功能完成。
+
 </p>
 
 ## 尚未完成的功能
