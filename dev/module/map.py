@@ -29,6 +29,13 @@ def map(path:str):
         
             for tags in data.find_all('gaugeName'):
                 tags.name='normalGaugeName'
+            
+            for info in data.find_all('MapDataAreaInfo'):
+                if info.musicName.id.string!='-1':
+                    if not info.find('challengeGaugeName'):
+                        newtag=BeautifulSoup('<challengeGaugeName><id>200</id><str>課題セット1</str><data /></challengeGaugeName>','xml')
+                        info.append(newtag)
+
         
             #寫檔
             with open(nowfile, 'w', encoding='utf-8')as f:
