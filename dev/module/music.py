@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import os
-import shutil
 
 from ERROR import ERRORReport
 
