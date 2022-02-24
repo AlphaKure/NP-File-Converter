@@ -1,21 +1,18 @@
 import os
-import ujson
 import shutil
 
 from ERROR import ERRORReport
+from tool import read_setting
 
 def cue(path:str):
     '''
     path=Path to cueFile folder
     '''
     #讀取設定 
-    with open('setting.json','r',encoding='utf-8')as f:
-        setting=ujson.load(f)
-        f.close()    
-    deretore=setting['deretore']
-    critool=setting['critool']
-    key=setting['key']
-    sat=setting['sat']
+    deretore=read_setting('deretore')
+    critool=read_setting('critool')
+    key=read_setting('key')
+    sat=read_setting('sat')
 
     #檢查setting
     if deretore=='':

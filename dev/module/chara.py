@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import ujson
 
 from ERROR import ERRORReport
-
+from tool import read_setting
 
 def chara(path: str):
     '''
@@ -20,12 +20,8 @@ def chara(path: str):
         
     
     #開啟設定json 獲得WorkSort.xml位置
-    try:
-        with open('setting.json','r',encoding='utf-8')as f:
-            setting=ujson.load(f)
-            f.close()
-        p_WorkS=setting['WorksSort.xml_path']
-    except:
+    p_WorkS=read_setting('WorksSort.xml_path')
+    if p_WorkS=='':
         ERRORReport('chara',2)
         return
 

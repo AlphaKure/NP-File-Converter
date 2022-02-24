@@ -1,17 +1,14 @@
-import ujson
+from dev.module.tool import *
 
 def setting():
 
     while True:
-        with open('setting.json','r',encoding='utf-8')as f:
-            database=ujson.load(f)
-            f.close()
         print('Your setting:')
-        print('deretore:',database['deretore'])
-        print('sat:',database['sat'])
-        print('critool:',database['critool'])
-        print('key:',database['key'])
-        print('WorksSort.xml_path:',database['WorksSort.xml_path'])
+        print('deretore:',read_setting('deretore'))
+        print('sat:',read_setting('sat'))
+        print('critool:',read_setting('critool'))
+        print('key:',read_setting('key'))
+        print('WorksSort.xml_path:',read_setting('WorksSort.xml_path'))
         print('What do you want to setting?')
         print('[0]deretore:You need to point to hcaenc.exe in deretore.')
         print('[1]sat:You need to point to AcbEditor.exe in Sonic Audio Tools.')
@@ -33,10 +30,7 @@ def setting():
         elif num==5:
             return    
         string=str(input('Setting Value:'))
-        database[pick]=string
-        with open('setting.json','w',encoding='utf-8')as f:
-            ujson.dump(database,f)
-            f.close()
+        edit_setting(pick,string)
 
 if __name__=='__main__':
     setting()
