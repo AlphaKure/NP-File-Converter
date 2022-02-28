@@ -56,6 +56,7 @@ def music(path:str):
 
             #依照有無ULTIMA進行格式修改
             if ULTIMA:
+                dataU=False
                 dataName=data.dataName.string
                 dataName=dataName[:5]+'5'+dataName[6:]
                 data.dataName.string=dataName
@@ -67,6 +68,7 @@ def music(path:str):
                 for musicdata in data.find_all('MusicFumenData'):
                     id=musicdata.id.string
                     if id=='4' and musicdata.str.string=='Ultima':
+                        dataU=True
                         level=musicdata.level.string
                         Dec=musicdata.levelDecimal.string
                         musicdata.decompose()
@@ -86,9 +88,10 @@ def music(path:str):
                 for musicdata in data.find_all('MusicFumenData'):
                     id=musicdata.id.string
                     if id=='3':
-                        musicdata.level.string=level
-                        musicdata.levelDecimal.string=Dec
-                        musicdata.file.path.string=newnumber+'_04.c2s'
+                        if dataU:
+                            musicdata.level.string=level
+                            musicdata.levelDecimal.string=Dec
+                            musicdata.file.path.string=newnumber+'_04.c2s'
                     else:
                         musicdata.path.string=newnumber+'_0'+id+'.c2s'
 
