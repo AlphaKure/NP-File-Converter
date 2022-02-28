@@ -18,7 +18,7 @@
 <li><a href="https://github.com/kohos/CriTools">CriTools</a></li>
 <li><a href="https://github.com/OpenCGSS/DereTore">deretore</a></li>
 <li><a href="https://github.com/blueskythlikesclouds/SonicAudioTools">SonicAudioTools</a></li>
-<li>python使用os、shutil、beautifulsoup、ujson套件</li>
+<li>python使用os、shutil、beautifulsoup、ujson、lxml套件</li>
 
 ## 尚未完成的功能
 
