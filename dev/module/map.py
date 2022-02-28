@@ -2,8 +2,9 @@ from bs4 import BeautifulSoup
 import os 
 import ujson
 
-from ERROR import ERRORReport
+from . import ERROR
 
+#import ERROR
 
 def cgauge_set(gauge:int):
     '''
@@ -53,7 +54,7 @@ def map(path:str):
                     data = BeautifulSoup(data, 'xml')
                     f.close()
             except:
-                ERRORReport(nowfile,4)
+                ERROR.ERRORReport(nowfile,4)
                 return
         
             for tags in data.find_all('gaugeName'):
@@ -81,7 +82,7 @@ def map(path:str):
 
 
     else:
-        ERRORReport('map',99)
+        ERROR.ERRORReport('map',99)
         return
     
 if __name__=='__main__':

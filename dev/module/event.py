@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import os 
 
-from ERROR import ERRORReport
+from . import ERROR
+
+#import ERROR
 
 def event(path:str):
     '''
@@ -23,7 +25,7 @@ def event(path:str):
                     data = BeautifulSoup(data, 'xml')
                     f.close()
             except:
-                ERRORReport(nowfile,4)
+                ERROR.ERRORReport(nowfile,4)
                 return
         
             if data.alwaysOpen.string=='false':
@@ -44,7 +46,7 @@ def event(path:str):
 
 
     else:
-        ERRORReport('event',99)
+        ERROR.ERRORReport('event',99)
         return
 
 if __name__=='__main__':

@@ -1,12 +1,23 @@
 from bs4 import BeautifulSoup
 import os
 
-from ERROR import ERRORReport
+from . import ERROR
+from . import tool
+
+#import ERROR
+#import tool
+
 
 def music(path:str):
     '''
     path=Path to music folder
     '''
+
+    #需不需要修改
+    fL_flag=tool.read_setting('music_fix_firstLock')
+    dF_flag=tool.read_setting('music_fix_disableFlag')
+
+
     #檢查路徑
     if os.path.isdir(path):
         if not path.endswith('\\'):
@@ -24,17 +35,18 @@ def music(path:str):
                     data = f.read()
                     data = BeautifulSoup(data, 'xml')
             except:
-                ERRORReport(nowfile,4)
+                ERROR.ERRORReport(nowfile,4)
                 return
                 
             #檢查disableFlag和firstLock
-            if data.disableFlag.string=='true':
-                data.disableFlag.string='false'
-                print(f'[SUCCESS] {nowfile} disableFlag fix!')
-            
-            if data.firstLock.string=='true':
-                data.firstLock.string='false'
-                print(f'[SUCCESS] {nowfile} firstLock disable!')
+            if fL_flag=='True':
+                if data.disableFlag.string=='true':
+                    data.disableFlag.string='false'
+                    print(f'[SUCCESS] {nowfile} disableFlag fix!')
+            if dF_flag=='True':
+                if data.firstLock.string=='true':
+                    data.firstLock.string='false'
+                    print(f'[SUCCESS] {nowfile} firstLock disable!')
             
 
             #是否有ULTIMA譜面
@@ -126,7 +138,7 @@ def music(path:str):
                         
                 
     else:
-        ERRORReport('music',99)
+        ERROR.ERRORReport('music',99)
         return
 
                 

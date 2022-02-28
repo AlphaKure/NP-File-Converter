@@ -2,8 +2,11 @@ import os
 from bs4 import BeautifulSoup
 import ujson
 
-from ERROR import ERRORReport
-from tool import read_setting
+from . import ERROR
+from . import tool
+
+#import ERROR
+#import tool
 
 def chara(path: str):
     '''
@@ -15,14 +18,15 @@ def chara(path: str):
             database=ujson.load(f)
             f.close()
     except:
-        ERRORReport('chara',1)
+        ERROR.ERRORReport('chara',1)
         return
         
     
     #開啟設定json 獲得WorkSort.xml位置
-    p_WorkS=read_setting('WorksSort.xml_path')
+    p_WorkS=tool.read_setting('WorksSort.xml_path')
+    defaultHave=tool.read_setting('chara_defaultHave')
     if p_WorkS=='':
-        ERRORReport('chara',2)
+        ERROR.ERRORReport('chara',2)
         return
 
     #讀取WorkSort.xml
@@ -32,7 +36,7 @@ def chara(path: str):
             work = BeautifulSoup(work, 'xml')
             f.close()
     except:
-        ERRORReport('chara',3)
+        ERROR.ERRORReport('chara',3)
         return
 
     #檢查路徑
@@ -56,7 +60,7 @@ def chara(path: str):
                         data = BeautifulSoup(data, 'xml')
                         f.close()
                 except:
-                    ERRORReport(nowfile,4)
+                    ERROR.ERRORReport(nowfile,4)
                     return
                 ranks = data.find('ranks')
                 for chararank in ranks.find_all('CharaRankData'):
@@ -90,6 +94,11 @@ def chara(path: str):
                         chararank.skill.skill.id.string=skillid
                         chararank.skill.skill.str.string=skillname
                 
+                #修改defaultHave
+                if defaultHave=='True':
+                    data.defaultHave.string='True'
+
+
                 #新增標籤 firstskill
                 if not data.find('firstSkill'):
                     charaskill=data.find('skill').str.string
@@ -134,7 +143,7 @@ def chara(path: str):
 
         print('[SUCCESS] chara convert all done!')
     else:
-        ERRORReport('chara',99)
+        ERROR.ERRORReport('chara',99)
         return
     
     

@@ -1,38 +1,41 @@
 import os
 import shutil
 
-from ERROR import ERRORReport
-from tool import read_setting
+from . import ERROR
+from . import tool
+
+#import ERROR
+#import tool
 
 def cue(path:str):
     '''
     path=Path to cueFile folder
     '''
     #讀取設定 
-    deretore=read_setting('deretore')
-    critool=read_setting('critool')
-    key=read_setting('key')
-    sat=read_setting('sat')
+    deretore=tool.read_setting('deretore')
+    critool=tool.read_setting('critool')
+    key=tool.read_setting('key')
+    sat=tool.read_setting('sat')
 
     #檢查setting
     if deretore=='':
-        ERRORReport('setting',5)
+        ERROR.ERRORReport('setting',5)
         return
     if not deretore.endswith('hcaenc.exe'):
-        ERRORReport('setting',6)
+        ERROR.ERRORReport('setting',6)
     if critool=='':
-        ERRORReport('setting',7)
+        ERROR.ERRORReport('setting',7)
         return
     if not critool.endswith('index.js'):
-        ERRORReport('setting',8)
+        ERROR.ERRORReport('setting',8)
     if key=='':
-        ERRORReport('setting',9)
+        ERROR.ERRORReport('setting',9)
         return
     if sat=='':
-        ERRORReport('setting',10)
+        ERROR.ERRORReport('setting',10)
         return
     if not sat.endswith('AcbEditor.exe'):
-        ERRORReport('setting',11)
+        ERROR.ERRORReport('setting',11)
         return
 
     #檢查path
@@ -77,7 +80,7 @@ def cue(path:str):
           
         print('[SUCCESS] CueFile convert all done!')    
     else:
-        ERRORReport('cueFile',99)
+        ERROR.ERRORReport('cueFile',99)
         return
 
 
