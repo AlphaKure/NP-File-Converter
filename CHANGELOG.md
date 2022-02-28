@@ -37,4 +37,8 @@
 	
 &emsp;&emsp;[map] cgauge標籤新增功能完成。
 
+2022/2/27
+
+&emsp;&emsp;整合完成!
+
 </p>
