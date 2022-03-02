@@ -9,7 +9,6 @@
 <li><a href="#使用到的工具">使用到的工具</a></li>
 <li><a href="#尚未完成的功能">尚未完成的功能</a></li>
 <li><a href="#使用方法">使用方法</a></li>
-<li><a href="#運作原理">運作原理</a></li>
 <li><a href="CHANGELOG.md">開發紀錄</a></li>
 <li><a href="EN_README.md">English</a>(Not written yet)</li>
 
@@ -85,8 +84,20 @@
 
 ### 第二步：開始使用
 
-待補..
+<p>
+&emsp; 請先確定安裝好lxml、beautifulsoup、ujson套件。
 
-## 運作原理
+&emsp; 執行main.py。
+	
+```cmd	
+python -u "d:\DeskTop\NP-File-Converter\main.py"
+```
+	
+&emsp; 如果要直接進行轉換，可以直接輸入需要轉換的option資料夾位置，例如:
 
-待補..
+&emsp;&emsp; D:\Desktop\A999
+	
+&emsp; 如果不想要進行某些轉換，可以輸入"setting"，即可進入調整設定，把不想要或想要執行的項目進行修改。
+
+</p>
+
