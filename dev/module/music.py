@@ -109,11 +109,13 @@ def music(path:str):
             
             #以下為共同修改
             rightinfo=BeautifulSoup('<rightsInfoName><id>0</id><str>なし</str><data /></rightsInfoName>','xml')
-            preview=BeautifulSoup('<previewStartTime>50000</previewStartTime><previewEndTime>75000</previewEndTime>','xml')
+            preview_S=BeautifulSoup('<previewStartTime>50000</previewStartTime>','xml')
+            preview_E=BeautifulSoup('<previewEndTime>75000</previewEndTime>','xml')
             if not data.find('rightsInfoName'):
                 data.find('name').insert_after(rightinfo)
             if not data.find('previewStartTime'):
-                data.find('cueFileName').insert_after(preview)
+                data.find('cueFileName').insert_after(preview_S)
+                data.find('previewStartTime').insert_after(preview_E)
 
             if ULTIMA:
                 count=0
