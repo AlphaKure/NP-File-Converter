@@ -57,6 +57,8 @@ def music(path:str):
             #依照有無ULTIMA進行格式修改
             if ULTIMA:
                 dataU=False
+                data.releaseTagName.id.string='12'
+                data.releaseTagName.str.string='v2 2.00.00'
                 dataName=data.dataName.string
                 dataName=dataName[:5]+'5'+dataName[6:]
                 data.dataName.string=dataName
