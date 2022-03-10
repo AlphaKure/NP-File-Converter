@@ -41,4 +41,8 @@
 
 &emsp;&emsp;整合完成!
 
+2022/3/10
+
+&emsp;&emsp;[course] 修改course功能完成。
+
 </p>

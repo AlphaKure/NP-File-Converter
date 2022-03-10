@@ -2,6 +2,7 @@ import os
 
 from dev.module.tool import *
 from dev.module.chara import *
+from dev.module.course import *
 from dev.module.cue import *
 from dev.module.ERROR import *
 from dev.module.event import *
@@ -16,12 +17,13 @@ def setting():
         print('[2]event:',read_setting('event'))
         print('[3]map:',read_setting('map'))
         print('[4]music:',read_setting('music'))
-        print('[5]Chara all defaultHave:',read_setting('chara_defaultHave'))
-        print('[6]Fix music firstLock:',read_setting('music_fix_firstLock'))
-        print('[7]Fix music disableflag:',read_setting('music_fix_disableFlag'))
-        print('[8]Exit')
+        print('[5]course:',read_setting('course'))
+        print('[6]Chara all defaultHave:',read_setting('chara_defaultHave'))
+        print('[7]Fix music firstLock:',read_setting('music_fix_firstLock'))
+        print('[8]Fix music disableflag:',read_setting('music_fix_disableFlag'))
+        print('[9]Exit')
         pick=int(str(input('Command:')))
-        if pick==8:
+        if pick==9:
             break
         elif pick==0:
             key='cue'
@@ -34,10 +36,12 @@ def setting():
         elif pick==4:
             key='music'
         elif pick==5:
-            key='chara_defaultHave'
+            key='course'
         elif pick==6:
-            key='music_fix_firstLock'
+            key='chara_defaultHave'
         elif pick==7:
+            key='music_fix_firstLock'
+        elif pick==8:
             key='music_fix_disableFlag'
         
         if read_setting(key)=='True':
@@ -65,6 +69,8 @@ def main(path:str):
             map(path+'map')
         if read_setting('music')=='True':
             music(path+'music')
+        if read_setting('course')=='True':
+            course(path+'course')
         print('[INFO]Convert completed')
     else:
         ERRORReport('root',99)
