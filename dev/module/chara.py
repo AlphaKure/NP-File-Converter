@@ -1,4 +1,5 @@
 import os
+from pickle import FALSE
 from bs4 import BeautifulSoup
 import ujson
 
@@ -87,10 +88,15 @@ def chara(path: str):
                         if skillname=='Invalid':
                             skillid=-1
                         else:
+                            f_skillfind=False
                             for item in database:
                                 if skillname==item['name']:
                                     skillid=item['id']
+                                    f_skillfind=True
                                     break
+                            if not f_skillfind:
+                                skillname='Invalid'
+                                skillid=-1
                         chararank.skill.skill.id.string=skillid
                         chararank.skill.skill.str.string=skillname
                 
