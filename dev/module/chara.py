@@ -96,7 +96,7 @@ def chara(path: str):
                                     break
                             if not f_skillfind:
                                 skillname='Invalid'
-                                skillid=-1
+                                skillid='-1'
                         chararank.skill.skill.id.string=skillid
                         chararank.skill.skill.str.string=skillname
                 
