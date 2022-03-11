@@ -21,10 +21,8 @@ def cgauge_set(gauge:int):
         return 3
     elif gauge>=7 and gauge<9:
         return 4
-    elif gauge>=9 and gauge<11:
+    elif gauge>=9 :
         return 5
-    elif gauge>=11:
-        return 6
 
 def map(path:str):
     '''
@@ -60,28 +58,29 @@ def map(path:str):
             #修改分類
             OriFilter=data.find('mapFilterID').str.string
             if OriFilter=='Current':
-                newFiltersid=0
+                newFiltersid='0'
                 newFilterstr='Current'
                 newFilterdata='現行バージョン'
             elif OriFilter=='Collaboration':
-                newFiltersid=1
+                newFiltersid='1'
                 newFilterstr='Collaboration'
                 newFilterdata='コラボ系'
             elif OriFilter=='Sega':
-                newFiltersid=2
+                newFiltersid='2'
                 newFilterstr='Sega'
                 newFilterdata='自社'
             elif OriFilter=='Other':
-                newFiltersid=3
+                newFiltersid='3'
                 newFilterstr='Other'
                 newFilterdata='その他'
             data.mapFilterID.id.string=newFiltersid
             data.mapFilterID.str.string=newFilterstr
-            data.mapFilterID.str.string=newFilterstr
+            data.mapFilterID.data.string=newFilterdata
             #修改標籤名稱
             for tags in data.find_all('gaugeName'):
                 tags.name='normalGaugeName'
             
+            lg=0
             #課題
             for info in data.find_all('MapDataAreaInfo'):
                 if info.musicName.id.string!='-1':
