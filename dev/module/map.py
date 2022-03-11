@@ -56,7 +56,29 @@ def map(path:str):
             except:
                 ERROR.ERRORReport(nowfile,4)
                 return
-        
+
+            #修改分類
+            OriFilter=data.find('mapFilterID').str.string
+            if OriFilter=='Current':
+                newFiltersid=0
+                newFilterstr='Current'
+                newFilterdata='現行バージョン'
+            elif OriFilter=='Collaboration':
+                newFiltersid=1
+                newFilterstr='Collaboration'
+                newFilterdata='コラボ系'
+            elif OriFilter=='Sega':
+                newFiltersid=2
+                newFilterstr='Sega'
+                newFilterdata='自社'
+            elif OriFilter=='Other':
+                newFiltersid=3
+                newFilterstr='Other'
+                newFilterdata='その他'
+            data.mapFilterID.id.string=newFiltersid
+            data.mapFilterID.str.string=newFilterstr
+            data.mapFilterID.str.string=newFilterstr
+            #修改標籤名稱
             for tags in data.find_all('gaugeName'):
                 tags.name='normalGaugeName'
             
