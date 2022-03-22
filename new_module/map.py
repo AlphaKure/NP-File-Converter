@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 from cross import mapFilter
 
+reward_path='D:\DeskTop\A114_2.00\\reward'
 
 def cgauge(count:int):
     #1*1 2 4 5 6 8各*4
@@ -31,6 +32,8 @@ def cgauge(count:int):
 
 
 def newmap(path:str):
+
+    global reward_path
     #檢查路徑
     if not os.path.isdir(path):
         print('[ERROR] path is not exist.')
@@ -111,23 +114,51 @@ def newmap(path:str):
                         MapDataAreaInfo.find('isHard').insert_after(pageIndex)
 
                     if not MapDataAreaInfo.find('indexInPage'):
-                        indexInPage=BeautifulSoup('<indexInPage>'+str(index)+'</indexInPage>','xml')
-                        MapDataAreaInfo.find('pageIndex').insert_after(indexInPage)
-                        if index!=8:
-                            index+=1
+                        #看reward是否為空
+                        if reward_path=='':
+                            print('[ERROR] reward_path need to set!')
+                            return
                         else:
-                            index=0
-                            page+=1
+                            rewardfoldername=MapDataAreaInfo.rewardName.id.string
+                            try:
+                                with open(reward_path+'/reward0'+rewardfoldername+'/Reward.xml','r',encoding='utf-8')as f:
+                                    Reward=f.read()
+                                    Reward=BeautifulSoup(Reward,'xml')
+                                    f.close()
+                            except:
+                                print(f'[ERROR] Reward.xml read failure!')
+                                os.system('PAUSE')
+                                continue
+                            
+                            Haveitem=False
+                            tagname=['ticketName','trophyName','charaName','skillSeedName','namePlateName','musicName','mapIconName','systemVoiceName','avatarAccessoryName','frameName']
+                            if Reward.substances.list.RewardSubstanceData.gamePoint.gamePoint.string!='0':
+                                Haveitem=True
+                            else:
+                                for tagn in tagname:
+                                    if Reward.find(tagn).id.string!='-1':
+                                        
+                                        Haveitem=True
+                            if Haveitem==False:
+                                MapDataAreaInfo.decompose()
+                            else:
+                                indexInPage=BeautifulSoup('<indexInPage>'+str(index)+'</indexInPage>','xml')
+                                MapDataAreaInfo.find('pageIndex').insert_after(indexInPage)
+                                if index!=8:
+                                    index+=1
+                                else:
+                                    index=0
+                                    page+=1
                     
-                    if not MapDataAreaInfo.find('requiredAchievementCount'):
-                        requiredAchievementCount=BeautifulSoup('<requiredAchievementCount>0</requiredAchievementCount>','xml')
-                        MapDataAreaInfo.find('indexInPage').insert_after(requiredAchievementCount)
+                                if not MapDataAreaInfo.find('requiredAchievementCount'):
+                                    requiredAchievementCount=BeautifulSoup('<requiredAchievementCount>0</requiredAchievementCount>','xml')
+                                    MapDataAreaInfo.find('indexInPage').insert_after(requiredAchievementCount)
                     
-                    if not MapDataAreaInfo.find('gaugeName'):
-                        gid,gstr=cgauge(gaugecount)
-                        gaugeName=BeautifulSoup('<gaugeName><id>'+gid+'</id><str>'+gstr+'</str><data /></gaugeName>','xml')
-                        MapDataAreaInfo.find('requiredAchievementCount').insert_after(gaugeName)
-                        gaugecount+=1
+                                if not MapDataAreaInfo.find('gaugeName'):
+                                    gid,gstr=cgauge(gaugecount)
+                                    gaugeName=BeautifulSoup('<gaugeName><id>'+gid+'</id><str>'+gstr+'</str><data /></gaugeName>','xml')
+                                    MapDataAreaInfo.find('requiredAchievementCount').insert_after(gaugeName)
+                                    gaugecount+=1
                     
                     with open(nowfile,'w',encoding='utf-8')as f:
                         f.write(str(data))
