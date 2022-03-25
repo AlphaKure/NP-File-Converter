@@ -10,7 +10,7 @@
 <li><a href="#尚未完成的功能">尚未完成的功能</a></li>
 <li><a href="#使用方法">使用方法</a></li>
 <li><a href="CHANGELOG.md">開發紀錄</a></li>
-<li><a href="EN_README.md">English</a>/li>
+<li><a href="EN_README.md">English</a></li>
 
 ## 使用到的工具
 
