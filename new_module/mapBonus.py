@@ -41,7 +41,7 @@ def newmapBonus(path:str):
                         elif MapBonusSubstanceData.musicDif.id.string=='0':
                             MapBonusSubstanceData.musicDif.str.string='Basic'
                         elif MapBonusSubstanceData.musicDif.id.string=='1':
-                            MapBonusSubstanceData.musicDif.str.string='Advance'
+                            MapBonusSubstanceData.musicDif.str.string='Advanced'
                         elif MapBonusSubstanceData.musicDif.id.string=='2':
                             MapBonusSubstanceData.musicDif.str.string='Expert'
                         elif MapBonusSubstanceData.musicDif.id.string=='3':

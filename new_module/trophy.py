@@ -51,7 +51,7 @@ def newtrophy(path:str):
                     if ConditionSubData.playMusicData.musicDif.id.string=='0':
                         ConditionSubData.playMusicData.musicDif.str.string='Basic'
                     elif ConditionSubData.playMusicData.musicDif.id.string=='1':
-                        ConditionSubData.playMusicData.musicDif.str.string='Advance'
+                        ConditionSubData.playMusicData.musicDif.str.string='Advanced'
                     elif ConditionSubData.playMusicData.musicDif.id.string=='2':
                         ConditionSubData.playMusicData.musicDif.str.string='Expert'
                     elif ConditionSubData.playMusicData.musicDif.id.string=='3':
@@ -73,7 +73,7 @@ def newtrophy(path:str):
                     if ConditionSubData.musicData.musicDif.id.string=='0':
                         ConditionSubData.musicData.musicDif.str.string='Basic'
                     elif ConditionSubData.musicData.musicDif.id.string=='1':
-                        ConditionSubData.musicData.musicDif.str.string='Advance'
+                        ConditionSubData.musicData.musicDif.str.string='Advanced'
                     elif ConditionSubData.musicData.musicDif.id.string=='2':
                         ConditionSubData.musicData.musicDif.str.string='Expert'
                     elif ConditionSubData.musicData.musicDif.id.string=='3':
