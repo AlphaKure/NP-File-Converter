@@ -10,7 +10,7 @@
 <li><a href="#尚未完成的功能">尚未完成的功能</a></li>
 <li><a href="#使用方法">使用方法</a></li>
 <li><a href="CHANGELOG.md">開發紀錄</a></li>
-<li><a href="EN_README.md">English</a>(Not written yet)</li>
+<li><a href="EN_README.md">English</a>/li>
 
 ## 使用到的工具
 
@@ -23,7 +23,7 @@
 
 <p>
 
-&emsp;PL轉N ~~等我玩到了再說w~~
+&emsp;PL轉N cueFile music轉換功能加強。
 
 </p>
 
@@ -35,7 +35,7 @@
 
 &emsp; 請參考<a href="#使用到的工具">使用到的工具</a>，本程式除了python之外，必須使用deretore、Cri-Tools、Sonic Audio Tools進行acb的解密以及打包。
 
-也需要準備好遊戲的acb、awb key，17位十進制，這裡就不方便提供。
+也需要準備好遊戲的hca key，17位十進制，這裡就不方便提供。
 
 </p>
 
@@ -74,6 +74,7 @@
     "event":"True",
     "map":"True",
     "music":"True",
+    "course":"True",
     "chara_defaultHave":"False",
     "music_fix_firstLock":"True",
     "music_fix_disableFlag":"True"
