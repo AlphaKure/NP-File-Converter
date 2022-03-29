@@ -95,3 +95,6 @@ def newcourse(path:str):
                 with open(nowfile, 'w', encoding='utf-8')as f:
                     f.write(str(data))
                     f.close()
+
+if __name__=='__main__':
+    newcourse(input())
