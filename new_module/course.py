@@ -56,9 +56,9 @@ def newcourse(path:str):
                     if tag.musicDiff.data.string=='BASIC':
                         tag.musicDiff.id.string='0'
                         tag.musicDiff.str.string='Basic'
-                    elif tag.musicDiff.data.string=='ADVANCE':
+                    elif tag.musicDiff.data.string=='ADVANCED':
                         tag.musicDiff.id.string='1'
-                        tag.musicDiff.str.string='Advence'
+                        tag.musicDiff.str.string='Advenced'
                     elif tag.musicDiff.data.string=='EXPERT':
                         tag.musicDiff.id.string='2'
                         tag.musicDiff.str.string='Expert'
@@ -76,9 +76,9 @@ def newcourse(path:str):
                             if SubData.diff.data.string=='BASIC':
                                 SubData.diff.id.string='0'
                                 SubData.diff.str.string='Basic'
-                            elif SubData.diff.data.string=='ADVANCE':
+                            elif SubData.diff.data.string=='ADVANCED':
                                 SubData.diff.id.string='1'
-                                SubData.diff.str.string='Advence'
+                                SubData.diff.str.string='Advenced'
                             elif SubData.diff.data.string=='EXPERT':
                                 SubData.diff.id.string='2'
                                 SubData.diff.str.string='Expert'
