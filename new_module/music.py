@@ -99,6 +99,27 @@ def newmusic(path:str):
                             os.rename(path+dir+'/'+WEdataname,path+dir+'/'+newname)
                     musicfumendatasid+=1
 
+                #處理stageid更改
+                for stageName in data.find_all('stageName'):
+                    if stageName.str.string=='WORLD\'S END0001_ノイズ':
+                        stageName.id.string='0'
+                    elif stageName.str.string=='レーベル 共通0001_イエローリング':
+                        stageName.id.string='1'
+                    elif stageName.str.string=='レーベル 共通0002_AIR':
+                        stageName.id.string='2'
+                    elif stageName.str.string=='レーベル 共通0003_STAR':
+                        stageName.id.string='3'
+                    elif stageName.str.string=='レーベル 共通0004_AMAZON':
+                        stageName.id.string='4'
+                    elif stageName.str.string=='レーベル 共通0005_CRYSTAL':
+                        stageName.id.string='5'
+                    elif stageName.str.string=='レーベル 共通0006_PARADISE':
+                        stageName.id.string='6'
+                    elif stageName.str.string=='レーベル 共通0007_PARADISELOST':
+                        stageName.id.string='7'
+                    elif stageName.str.string=='レーベル 共通0008_新イエローリング':
+                        stageName.id.string='8'
+                    
                 #寫檔
                 with open(nowfile,'w',encoding='utf-8')as f:
                     f.write(str(data))
