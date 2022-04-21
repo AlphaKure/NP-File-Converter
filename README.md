@@ -23,8 +23,13 @@
 
 <p>
 
-&emsp;PL轉N cueFile music轉換功能加強。
+&emsp;設定改用ini
 
+&emsp;程式碼整理
+
+&emsp;翻譯文件及與語言選項
+
+&emsp;cue previewTime數值獲取
 </p>
 
 ## 使用方法
@@ -61,25 +66,33 @@
 <p>
 &emsp; 以下為範例:
 
-```json
-{
-    "deretore":"D:/DeskTop/deretore/hcaenc.exe",
-    "sat":"D:/DeskTop/sat/AcbEditor.exe",
-    "critool":"D:/DeskTop/CriTools-master/src/index.js",
-    "key":"00000000000000000",
-    "WorksSort.xml_path":"D:/Desktop/WorksSort.xml",
-	
-    "cue":"True",
-    "chara":"True",
-    "event":"True",
-    "map":"True",
-    "music":"True",
-    "course":"True",
-    "chara_defaultHave":"False",
-    "music_fix_firstLock":"True",
-    "music_fix_disableFlag":"True"
-}
+```ini
+[ToolPath]
+;deretore:You need to point to hcaenc.exe in deretore.
+deretore=D:\deretore\hcaenc.exe
+;sat:You need to point to AcbEditor.exe in Sonic Audio Tools.
+sat=D:/DeskTop/sat/AcbEditor.exe
+;critool:You need to point to index.js in critool.
+critool=D:\DeskTop\CriTools-master\src\index.js
+;key:You need to set acb key(17 digits decimal).
+key=00000000000000000
+;WorksSort.xml_path:You need to point to WorkSort.xml.
+WorksSort.xml_path=D:\Desktop\WorksSort.xml
 
+[Switch]
+;True=On False=Off
+cue=True
+chara=True
+event=True
+map=True
+music=True
+course=True
+
+[Detail]
+;True=On False=Off
+chara_defaultHave=False
+music_fix_firstLock=True
+music_fix_disableFlag=True
 ```
 </p>
 
