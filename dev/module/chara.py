@@ -1,5 +1,4 @@
 import os
-from pickle import FALSE
 from bs4 import BeautifulSoup
 import ujson
 
@@ -24,8 +23,8 @@ def chara(path: str):
         
     
     #開啟設定json 獲得WorkSort.xml位置
-    p_WorkS=tool.read_setting('WorksSort.xml_path')
-    defaultHave=tool.read_setting('chara_defaultHave')
+    p_WorkS=tool.read_setting('ToolPath','WorksSort.xml_path')
+    defaultHave=tool.read_setting('Detail','chara_defaultHave')
     if p_WorkS=='':
         ERROR.ERRORReport('chara',2)
         return

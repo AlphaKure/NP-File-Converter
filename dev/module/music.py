@@ -14,8 +14,8 @@ def music(path:str):
     '''
 
     #需不需要修改
-    fL_flag=tool.read_setting('music_fix_firstLock')
-    dF_flag=tool.read_setting('music_fix_disableFlag')
+    fL_flag=tool.read_setting('Detail','music_fix_firstLock')
+    dF_flag=tool.read_setting('Detail','music_fix_disableFlag')
 
 
     #檢查路徑

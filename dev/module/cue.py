@@ -12,10 +12,10 @@ def cue(path:str):
     path=Path to cueFile folder
     '''
     #讀取設定 
-    deretore=tool.read_setting('deretore')
-    critool=tool.read_setting('critool')
-    key=tool.read_setting('key')
-    sat=tool.read_setting('sat')
+    deretore=tool.read_setting('ToolPath','deretore')
+    critool=tool.read_setting('ToolPath','critool')
+    key=tool.read_setting('ToolPath','key')
+    sat=tool.read_setting('ToolPath','sat')
 
     #檢查setting
     if deretore=='':
