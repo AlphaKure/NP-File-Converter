@@ -1,6 +1,12 @@
 ## 開發紀錄
 
 <p>
+<li><a href="#V1">V1</a></li>
+<li><a href="#V2">V2</a></li>
+</p>
+
+# V1
+<p>
 2022/2/15
 	
 &emsp;&emsp;[cueFile] 檔案轉換、檔名重新排序配合AcbEditor功能完成。
@@ -49,5 +55,14 @@
 
 &emsp;&emsp;[new] 大部分檔案格式轉換功能完成。
 
+</p>
+
+# V2
+<p>
+2022/5/3
+
+&emsp;&emsp;[new] 停止對new的支援。
+
+&emsp;&emsp;[new] 大部分檔案格式轉換功能完成。
 
 </p>
