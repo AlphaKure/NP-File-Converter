@@ -49,7 +49,7 @@
 
 <p>
 	
-&emsp; 請先至setting.json檔設定需要的外部程式路徑，可使用setting.py協助修改。
+&emsp; 請先至setting.ini檔設定需要的外部程式路徑。
 
 &emsp;&emsp; deretore:請指向deretore裡的hca.exe。
 
@@ -59,7 +59,7 @@
 
 &emsp;&emsp; WorksSort.xml_path:chara分類顯示需要，**非常重要**，可以從A000中拿(建議使用P版的)。請指向WorksSort.xml。
 
-&emsp; 其他為自定義功能開關，可以先行更改，亦或是在index.py裡修改，詳細內容將告知於第二步。
+&emsp; 其他為功能開關，若有不需要的功能可在這裡關閉。
 
 </p>
 <br />

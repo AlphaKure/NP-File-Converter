@@ -29,7 +29,7 @@ Also need to prepare the game hca key. Decimal system. Not provided here.
 
 <p>
 	
-&emsp; Please go to setting.json file first to set the required external program path. You can use setting.py to help modify it.
+&emsp; Please go to setting.ini file first to set the required external program path.
 
 &emsp;&emsp; deretore:Please enter the path of hca.exe in deretore.
 
@@ -39,12 +39,12 @@ Also need to prepare the game hca key. Decimal system. Not provided here.
 
 &emsp;&emsp; WorksSort.xml_path:chara classification requires WorksSort.xml. **Very important!!!** You can take it from A000.( we recommend using the P version.) Please enter the path of WorksSort.xml.
 
-&emsp; Other custom function switches can be changed first or in index.py. Details will be given in step 2.
+&emsp; Others are function switches. You can turn off features you don't need.
 
 </p>
 <br />
 <p>
-&emsp; Example of setting.json:
+&emsp; Example of setting.ini:
 
 ```ini
 [ToolPath]
