@@ -1,34 +1,30 @@
+# -*- coding : utf-8-*-
+#pipreqs . --encoding=utf8 --force
+
 import os
 
-from dev.module.tool import *
-from dev.module.chara import *
-from dev.module.course import *
-from dev.module.cue import *
-from dev.module.ERROR import *
-from dev.module.event import *
-from dev.module.map import *
-from dev.module.music import *
+import dev.module as module
 
 def main(path:str):
 
     if os.path.isdir(path):
         if not path.endswith('\\'):
             path=path+'\\'
-        if read_setting('Switch','cue')=='True':
-            cue(path+'cueFile')
-        if read_setting('Switch','chara')=='True':
-            chara(path+'chara')
-        if read_setting('Switch','event')=='True':
-            event(path+'event')
-        if read_setting('Switch','map')=='True':
-            map(path+'map')
-        if read_setting('Switch','music')=='True':
-            music(path+'music')
-        if read_setting('Switch','course')=='True':
-            course(path+'course')
+        if module.tool.read_setting('Switch','cue')=='True':
+            module.cue.cue(path+'cueFile')
+        if module.tool.read_setting('Switch','chara')=='True':
+            module.chara.chara(path+'chara')
+        if module.tool.read_setting('Switch','event')=='True':
+            module.event.event(path+'event')
+        if module.tool.read_setting('Switch','map')=='True':
+            module.map.map(path+'map')
+        if module.tool.read_setting('Switch','music')=='True':
+            module.music.music(path+'music')
+        if module.tool.read_setting('Switch','course')=='True':
+            module.course.course(path+'course')
         print('[INFO]Convert completed')
     else:
-        ERRORReport('root',99)
+        module.ERROR.ERRORReport('root',99)
         return
 
 if __name__=='__main__':
