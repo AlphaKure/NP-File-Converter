@@ -2,156 +2,162 @@ import os
 from bs4 import BeautifulSoup
 import ujson
 
-from . import ERROR
-from . import tool
+try:
+    import ERROR
+    import tool
+except ModuleNotFoundError:
+    import dev.module.ERROR as ERROR
+    import dev.module.tool as tool
 
-#import ERROR
-#import tool
 
-def chara(path: str):
-    '''
-    path=Path to chara folder
-    '''
-    #開啟SKill json
+
+def chara(Path: str):
+    # The main function of the program is to convert the new version of Chara.xml to the old compatible version.
+    # Path:Path to chara folder
+
+    # Read SKill.json
     try:
-        with open('dev/data/Skill.json','r',encoding='utf-8')as f:
-            database=ujson.load(f)
-            f.close()
+        with open('dev/data/Skill.json', 'r', encoding='utf-8')as File:
+            DataBase = ujson.load(File)
+            File.close()
     except:
-        ERROR.ERRORReport('chara',1)
-        return
-        
-    
-    #開啟設定json 獲得WorkSort.xml位置
-    p_WorkS=tool.read_setting('ToolPath','WorksSort.xml_path')
-    defaultHave=tool.read_setting('Detail','chara_defaultHave')
-    if p_WorkS=='':
-        ERROR.ERRORReport('chara',2)
+        ERROR.ERRORReport('chara', 1)
         return
 
-    #讀取WorkSort.xml
+    # Get WorkSort.xml Path at setting
+    WorkSortFilePath = tool.read_setting('ToolPath', 'WorksSort.xml_path')
+    DefaultHave = tool.read_setting('Detail', 'chara_defaultHave')
+    if WorkSortFilePath == '':
+        ERROR.ERRORReport('chara', 2)
+        return
+
+    # Read WorkSort.xml
     try:
-        with open(p_WorkS,'r',encoding='utf-8')as f:
-            work = f.read()
-            work = BeautifulSoup(work, 'xml')
-            f.close()
+        with open(WorkSortFilePath, 'r', encoding='utf-8')as File:
+            WorkSortData = File.read()
+            WorkSortData = BeautifulSoup(WorkSortData, 'xml')
+            File.close()
     except:
-        ERROR.ERRORReport('chara',3)
+        ERROR.ERRORReport('chara', 3)
         return
 
-    #檢查路徑
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path = path+'\\'
+    # Check Path 
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path = Path+'\\'
 
-        #檢查路徑內資料夾
-        dirlist = os.listdir(path)
-        for dir in dirlist:
-            if not os.path.isdir(path+dir):
+        # Get Path file list
+        for Dir in os.listdir(Path):
+            if not os.path.isdir(Path+Dir):
                 break
-                
-            #開檔處理
             else:
-                nowfile = path+dir+'\Chara.xml'
-                print(f'[INFO] Now reading {nowfile}')
+                NowFile = Path+Dir+'\Chara.xml'
+                print(f'[INFO] Now reading {NowFile}')
                 try:
-                    with open(nowfile, 'r', encoding='utf-8')as f:
-                        data = f.read()
-                        data = BeautifulSoup(data, 'xml')
-                        f.close()
+                    with open(NowFile, 'r', encoding='utf-8')as File:
+                        Data = File.read()
+                        Data = BeautifulSoup(Data, 'xml')
+                        File.close()
                 except:
-                    ERROR.ERRORReport(nowfile,4)
+                    ERROR.ERRORReport(NowFile, 4)
                     return
-                ranks = data.find('ranks')
-                for chararank in ranks.find_all('CharaRankData'):
-                    skillid=-1
-
-                    #刪除不需要的資料
-                    if not chararank.find('type').string=='1' or chararank.find('index').string=='1' :
-                        chararank.decompose()
+                
+                # Read ranks tag
+                ranks = Data.find('ranks')
+                for CharaRankData in ranks.find_all('CharaRankData'):
+                    SkillID = -1
+                    # Remove unwanted tags
+                    if not CharaRankData.find('type').string == '1' or CharaRankData.find('index').string == '1':
+                        CharaRankData.decompose()
                     else:
-                        
-                        #修改tag名稱
+                        # Modify the tag name
                         try:
-                            for tags in chararank.find_all('rewardSkillSeed'):
-                                tags.name='skill'
+                            for rewardSkillSeed in CharaRankData.find_all('rewardSkillSeed'):
+                                rewardSkillSeed.name = 'skill'
                         except:
                             pass
-                        
-                        #讀取技能名稱並更改
-                        skillname=chararank.skill.skill.str.string
-                        if skillname.endswith('×5'):
-                            skillname=skillname.replace('×5','')
-                        elif skillname.endswith('×1'):
-                            skillname=skillname.replace('×1','') 
-                        if skillname=='Invalid':
-                            skillid=-1
+
+                        # Read the skill name and change it
+                        SkillName = CharaRankData.skill.skill.str.string
+                        if SkillName.endswith('×5'):
+                            SkillName = SkillName.replace('×5', '')
+                        elif SkillName.endswith('×1'):
+                            SkillName = SkillName.replace('×1', '')
+                        if SkillName == 'Invalid':
+                            SkillID = -1
                         else:
-                            f_skillfind=False
-                            for item in database:
-                                if skillname==item['name']:
-                                    skillid=item['id']
-                                    f_skillfind=True
+                            SkillFindFlag = False
+                            for Item in DataBase:
+                                if SkillName == Item['name']:
+                                    SkillID = Item['id']
+                                    SkillFindFlag = True
                                     break
-                            if not f_skillfind:
-                                skillname='Invalid'
-                                skillid='-1'
-                        chararank.skill.skill.id.string=skillid
-                        chararank.skill.skill.str.string=skillname
-                
-                #修改defaultHave
-                if defaultHave=='True':
-                    data.defaultHave.string='True'
+                            if not SkillFindFlag:
+                                SkillName = 'Invalid'
+                                SkillID = '-1'
+                        CharaRankData.skill.skill.id.string = SkillID
+                        CharaRankData.skill.skill.str.string = SkillName
 
+                # Modify defaultHave
+                if DefaultHave == 'True':
+                    Data.defaultHave.string = 'True'
 
-                #新增標籤 firstskill
-                if not data.find('firstSkill'):
-                    charaskill=data.find('skill').str.string
-                    if charaskill=='Invalid':
-                        charaskill='スキルなし'
-                        charaskillid='0'
+                # Add tag firstskill
+                if not Data.find('firstSkill'):
+                    CharaSkill = Data.find('skill').str.string
+                    if CharaSkill == 'Invalid':
+                        CharaSkill = 'スキルなし'
+                        CharaSkillID = '0'
                     else:
-                        charaskillid=data.find('skill').id.string
-                    newtag=BeautifulSoup('<firstSkill><id>'+charaskillid+'</id><str>'+charaskill+'</str><data /></firstSkill>','xml')
-                    data.CharaData.defaultHave.insert_after(newtag)
+                        CharaSkillID = Data.find('skill').id.string
+                    FirstSkillTag = BeautifulSoup(
+                        '<firstSkill><id>'+CharaSkillID+'</id><str>'+CharaSkill+'</str><data /></firstSkill>', 'xml')
+                    Data.CharaData.defaultHave.insert_after(FirstSkillTag)
 
-                workid=data.works.id.string
-                workstr=data.works.str.string
-                isFind=False
-                for StringID in work.find_all('StringID'):
-                    if StringID.id.string==workid and StringID.str.string==workstr:
-                        isFind=True
+                # Get Works data
+                WorkID = Data.works.id.string
+                WorkStr = Data.works.str.string
+                IsFind = False
+
+                # Read WorkSort.xml and find the same ID and Name
+                for StringID in WorkSortData.find_all('StringID'):
+                    if StringID.id.string == WorkID and StringID.str.string == WorkStr:
+                        IsFind = True
                         break
-                    elif StringID.str.string==workstr and StringID.id.string!=workid:
-                        data.works.id.string=StringID.id.string
+                    elif StringID.str.string == WorkStr and StringID.id.string != WorkID:
+                        Data.works.id.string = StringID.id.string
                         break
                     else:
                         continue
                 
-                if not isFind:
-                    tag=BeautifulSoup('<StringID><id>'+workid+'</id><str>'+workstr+'</str><data /></StringID>','xml')
-                    work.SortList.append(tag)
-                    with open(p_WorkS,'w',encoding='utf-8')as f:
-                        f.write(str(work))
-                        f.close()
-                #寫檔
-                with open(nowfile, 'w', encoding='utf-8')as f:
-                    f.write(str(data))
-                    f.close()
-                print(f'[INFO] {nowfile} Converter success!')
-                
+                # If not found, add a new tag and write it to WorkSort.xml
+                if not IsFind:
+                    tag = BeautifulSoup(
+                        '<StringID><id>'+WorkID+'</id><str>'+WorkStr+'</str><data /></StringID>', 'xml')
+                    WorkSortData.SortList.append(tag)
+                    with open(WorkSortFilePath, 'w', encoding='utf-8')as File:
+                        File.write(str(WorkSortData))
+                        File.close()
+
+                # Save modified file
+                with open(NowFile, 'w', encoding='utf-8')as File:
+                    File.write(str(Data))
+                    File.close()
+                tool.xmlformat(NowFile)
+
+                print(f'[INFO] {NowFile} Converter success!')
+
                 ''' 
-                #測試用:
+                #debug
                 print(data)
                 os.system('PAUSE')
                 '''
 
         print('[SUCCESS] chara convert all done!')
     else:
-        ERROR.ERRORReport('chara',99)
+        ERROR.ERRORReport('chara', 99)
         return
-    
-    
+
 
 if __name__ == '__main__':
     chara(str(input()))

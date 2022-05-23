@@ -5,23 +5,27 @@ import os
 
 import dev.module as module
 
-def main(path:str):
+def main(Path:str):
+    
+    # Make sure the path entered by the user is correct.
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path=Path+'\\'
 
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path=path+'\\'
+        # Read the setting and call the transfer program
         if module.tool.read_setting('Switch','cue')=='True':
-            module.cue.cue(path+'cueFile')
+            module.cue.cue(Path+'cueFile')
         if module.tool.read_setting('Switch','chara')=='True':
-            module.chara.chara(path+'chara')
+            module.chara.chara(Path+'chara')
         if module.tool.read_setting('Switch','event')=='True':
-            module.event.event(path+'event')
+            module.event.event(Path+'event')
         if module.tool.read_setting('Switch','map')=='True':
-            module.map.map(path+'map')
+            module.map.map(Path+'map')
         if module.tool.read_setting('Switch','music')=='True':
-            module.music.music(path+'music')
+            module.music.music(Path+'music')
         if module.tool.read_setting('Switch','course')=='True':
-            module.course.course(path+'course')
+            module.course.course(Path+'course')
+        
         print('[INFO]Convert completed')
     else:
         module.ERROR.ERRORReport('root',99)
@@ -33,9 +37,9 @@ if __name__=='__main__':
         print('Please enter the root path of the option folder to be converted:')
         print('Ex: D:\Desktop\A999')
         print('Or enter \'exit\' to exit.')
-        cmd=str(input('Command:'))
-        if cmd.lower()=='exit':
+        Command=str(input('Command:'))
+        if Command.lower()=='exit':
             os.system('PAUSE')
             break
         else:
-            main(cmd)
+            main(Command)
