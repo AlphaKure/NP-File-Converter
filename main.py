@@ -12,6 +12,11 @@ def main(Path:str):
         if not Path.endswith('\\'):
             Path=Path+'\\'
 
+
+
+        #Try to init PreviewTimelist
+        module.tool.InitPreviewTimeList()
+
         # Read the setting and call the transfer program
         if module.tool.read_setting('Switch','cue')=='True':
             module.cue.cue(Path+'cueFile')
@@ -25,7 +30,7 @@ def main(Path:str):
             module.music.music(Path+'music')
         if module.tool.read_setting('Switch','course')=='True':
             module.course.course(Path+'course')
-        
+
         print('[INFO]Convert completed')
     else:
         module.ERROR.ERRORReport('root',99)
