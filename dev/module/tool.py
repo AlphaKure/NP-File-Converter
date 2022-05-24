@@ -43,6 +43,7 @@ def FindPreviewTime(TargetID):
         if Item['musicID']==TargetID:
            return Item['PreviewTimeStart'],Item['PrevieTimeEnd']
     print(f'[ERROR] Not Found ID {TargetID}')
+    return '50000','75000'
 
 def XMLFormat(File):
     Parser = etree.XMLParser(remove_blank_text=True)
