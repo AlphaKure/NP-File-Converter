@@ -63,6 +63,10 @@
 
 &emsp;&emsp;[new] 停止對new的支援。
 
-&emsp;&emsp;[new] 大部分檔案格式轉換功能完成。
+2022/5/24
+
+&emsp;&emsp;[cue、music] 預覽時間軸獲取功能完成。
+
+&emsp;&emsp;[all] XML格式化功能完成。
 
 </p>
