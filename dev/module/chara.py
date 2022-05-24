@@ -143,7 +143,7 @@ def chara(Path: str):
                 with open(NowFile, 'w', encoding='utf-8')as File:
                     File.write(str(Data))
                     File.close()
-                tool.xmlformat(NowFile)
+                tool.XMLFormat(NowFile)
 
                 print(f'[INFO] {NowFile} Converter success!')
 

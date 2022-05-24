@@ -1,9 +1,13 @@
 from bs4 import BeautifulSoup
 import os 
 
-from . import ERROR
+try:
+    import ERROR
+    import tool
+except ModuleNotFoundError:
+    import dev.module.ERROR as ERROR
+    import dev.module.tool as tool
 
-#import ERROR
 
 def event(path:str):
     '''
@@ -38,6 +42,8 @@ def event(path:str):
             with open(nowfile, 'w', encoding='utf-8')as f:
                 f.write(str(data))
                 f.close()
+
+            tool.XMLFormat(nowfile)
             print(f'[INFO] {nowfile} Convert success')        
         
         print('[SUCCESS] Event convert all done!')

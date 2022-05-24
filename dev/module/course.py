@@ -1,9 +1,13 @@
 import os
 from bs4 import BeautifulSoup
 
-from . import ERROR
+try:
+    import ERROR
+    import tool
+except ModuleNotFoundError:
+    import dev.module.ERROR as ERROR
+    import dev.module.tool as tool
 
-#import ERROR
 
 def course(path:str):
 
@@ -52,6 +56,8 @@ def course(path:str):
             with open(nowfile, 'w', encoding='utf-8')as f:
                 f.write(str(data))
                 f.close()
+            tool.XMLFormat(nowfile)
+
             print(f'[INFO] {nowfile} Convert success')   
 
 if __name__=='__main__':
