@@ -1,16 +1,16 @@
 import os
 import shutil
 
-from . import ERROR
-from . import tool
+try:
+    import ERROR
+    import tool
+except ModuleNotFoundError:
+    import dev.module.ERROR as ERROR
+    import dev.module.tool as tool
 
-#import ERROR
-#import tool
 
 def cue(path:str):
-    '''
-    path=Path to cueFile folder
-    '''
+    
     #讀取設定 
     deretore=tool.read_setting('ToolPath','deretore')
     critool=tool.read_setting('ToolPath','critool')
@@ -51,6 +51,9 @@ def cue(path:str):
                 if file.endswith('.acb'):
                     target_acb=path+dir+'\\'+file
                     print(f'[INFO] Now reading {target_acb}')
+                    if tool.read_setting('PreviewTime','GetPreviewTime').lower()=='true':
+                        if int(file[7:])<10000:
+                            tool.PreviewTimeget(file[5:9],target_acb)
                     tmpdir=(path+dir+'\\'+file).replace('.acb','\\')
             os.system(f'node {critool} acb2wavs -k {key} {target_acb} ')
             tmplist=os.listdir(tmpdir)
@@ -77,7 +80,11 @@ def cue(path:str):
             #重新包裝
             os.system(f'{sat} {tmpdir[:-1]}')
             shutil.rmtree(tmpdir)
-          
+
+            #Save PreviewTime
+            if tool.read_setting('PreviewTime','PreviewTimeSave').lower()=='true':
+                tool.SavePreviewTime()
+
         print('[SUCCESS] CueFile convert all done!')    
     else:
         ERROR.ERRORReport('cueFile',99)

@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 import os
 
-from . import ERROR
-from . import tool
-
-#import ERROR
-#import tool
+try:
+    import ERROR
+    import tool
+except ModuleNotFoundError:
+    import dev.module.ERROR as ERROR
+    import dev.module.tool as tool
 
 
 def music(path:str):
@@ -111,8 +112,15 @@ def music(path:str):
             
             #以下為共同修改
             rightinfo=BeautifulSoup('<rightsInfoName><id>0</id><str>なし</str><data /></rightsInfoName>','xml')
-            preview_S=BeautifulSoup('<previewStartTime>50000</previewStartTime>','xml')
-            preview_E=BeautifulSoup('<previewEndTime>75000</previewEndTime>','xml')
+
+            #PreviewTime
+            if tool.read_setting('PreviewTime','GetPreviewTime').lower()=='false':
+                preview_S=BeautifulSoup('<previewStartTime>50000</previewStartTime>','xml')
+                preview_E=BeautifulSoup('<previewEndTime>75000</previewEndTime>','xml')
+            else:
+                Preview_ST,Preview_ET=tool.FindPreviewTime(data.find('jaketFile').path.string[14:18])
+                preview_S=BeautifulSoup('<previewStartTime>'+Preview_ST+'</previewStartTime>','xml')
+                preview_E=BeautifulSoup('<previewEndTime>'+Preview_ET+'</previewEndTime>','xml')
             if not data.find('rightsInfoName'):
                 data.find('name').insert_after(rightinfo)
             if not data.find('previewStartTime'):
@@ -136,6 +144,8 @@ def music(path:str):
             with open(nowfile, 'w', encoding='utf-8')as f:
                 f.write(str(data))
                 f.close()
+            tool.XMLFormat(nowfile) 
+
             print(f'[INFO] {nowfile} Convert success')   
 
             '''
