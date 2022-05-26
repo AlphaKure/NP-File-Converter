@@ -3,7 +3,7 @@ import configparser
 import ujson
 from lxml import etree
 
-def read_setting(Section:str,Type:str)->str:
+def ReadSetting(Section:str,Type:str)->str:
     Config=configparser.ConfigParser()
     Config.read('setting.ini') #不能和第四行合併
     return Config[Section][Type]
@@ -14,7 +14,7 @@ PreviewTimeList=list()
 def InitPreviewTimeList():
     global PreviewTimeList
     try:
-        PreviewTimeSavePath=read_setting('PreviewTime','PreviewTimeSavePath')
+        PreviewTimeSavePath=ReadSetting('PreviewTime','PreviewTimeSavePath')
         with open(PreviewTimeSavePath,'r',encoding='utf-8')as File:
             PreviewTimeList=ujson.dumps(File.read())
             File.close()
@@ -22,11 +22,11 @@ def InitPreviewTimeList():
         pass
 
 def SavePreviewTime():
-    if read_setting('PreviewTime','PreviewTimeSavePath')=='':
+    if ReadSetting('PreviewTime','PreviewTimeSavePath')=='':
         print('[ERROR] You didn\'t set Save Path for PreviewTime')
         return
     global PreviewTimeList
-    with open(read_setting('PreviewTime','PreviewTimeSavePath'),'w',encoding='utf-8')as File:
+    with open(ReadSetting('PreviewTime','PreviewTimeSavePath'),'w',encoding='utf-8')as File:
         File.write(ujson.dumps(PreviewTimeList))
         File.close()
 

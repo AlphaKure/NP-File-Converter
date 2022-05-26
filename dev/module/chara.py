@@ -11,7 +11,7 @@ except ModuleNotFoundError:
 
 
 
-def chara(Path: str):
+def Chara(Path: str):
     # The main function of the program is to convert the new version of Chara.xml to the old compatible version.
     # Path:Path to chara folder
 
@@ -21,14 +21,14 @@ def chara(Path: str):
             DataBase = ujson.load(File)
             File.close()
     except:
-        ERROR.ERRORReport('chara', 1)
+        ERROR.ErrorReport('chara', 1)
         return
 
     # Get WorkSort.xml Path at setting
-    WorkSortFilePath = tool.read_setting('ToolPath', 'WorksSort.xml_path')
-    DefaultHave = tool.read_setting('Detail', 'chara_defaultHave')
+    WorkSortFilePath = tool.ReadSetting('ToolPath', 'WorksSort.xml_path')
+    DefaultHave = tool.ReadSetting('Detail', 'chara_defaultHave')
     if WorkSortFilePath == '':
-        ERROR.ERRORReport('chara', 2)
+        ERROR.ErrorReport('chara', 2)
         return
 
     # Read WorkSort.xml
@@ -38,7 +38,7 @@ def chara(Path: str):
             WorkSortData = BeautifulSoup(WorkSortData, 'xml')
             File.close()
     except:
-        ERROR.ERRORReport('chara', 3)
+        ERROR.ErrorReport('chara', 3)
         return
 
     # Check Path 
@@ -59,7 +59,7 @@ def chara(Path: str):
                         Data = BeautifulSoup(Data, 'xml')
                         File.close()
                 except:
-                    ERROR.ERRORReport(NowFile, 4)
+                    ERROR.ErrorReport(NowFile, 4)
                     return
                 
                 # Read ranks tag
@@ -72,8 +72,8 @@ def chara(Path: str):
                     else:
                         # Modify the tag name
                         try:
-                            for rewardSkillSeed in CharaRankData.find_all('rewardSkillSeed'):
-                                rewardSkillSeed.name = 'skill'
+                            for RewardSkillSeed in CharaRankData.find_all('rewardSkillSeed'):
+                                RewardSkillSeed.name = 'skill'
                         except:
                             pass
 
@@ -132,9 +132,9 @@ def chara(Path: str):
                 
                 # If not found, add a new tag and write it to WorkSort.xml
                 if not IsFind:
-                    tag = BeautifulSoup(
+                    NewWorkTag = BeautifulSoup(
                         '<StringID><id>'+WorkID+'</id><str>'+WorkStr+'</str><data /></StringID>', 'xml')
-                    WorkSortData.SortList.append(tag)
+                    WorkSortData.SortList.append(NewWorkTag)
                     with open(WorkSortFilePath, 'w', encoding='utf-8')as File:
                         File.write(str(WorkSortData))
                         File.close()
@@ -155,9 +155,9 @@ def chara(Path: str):
 
         print('[SUCCESS] chara convert all done!')
     else:
-        ERROR.ERRORReport('chara', 99)
+        ERROR.ErrorReport('chara', 99)
         return
 
 
 if __name__ == '__main__':
-    chara(str(input()))
+    Chara(str(input()))

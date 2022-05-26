@@ -9,89 +9,86 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-def cue(path:str):
+def Cue(Path:str):
     
     #讀取設定 
-    deretore=tool.read_setting('ToolPath','deretore')
-    critool=tool.read_setting('ToolPath','critool')
-    key=tool.read_setting('ToolPath','key')
-    sat=tool.read_setting('ToolPath','sat')
+    ToolDeretore=tool.ReadSetting('ToolPath','deretore')
+    ToolCritool=tool.ReadSetting('ToolPath','critool')
+    AcbKey=tool.ReadSetting('ToolPath','key')
+    ToolSAT=tool.ReadSetting('ToolPath','sat')
 
     #檢查setting
-    if deretore=='':
-        ERROR.ERRORReport('setting',5)
+    if ToolDeretore=='':
+        ERROR.ErrorReport('setting',5)
         return
-    if not deretore.endswith('hcaenc.exe'):
-        ERROR.ERRORReport('setting',6)
-    if critool=='':
-        ERROR.ERRORReport('setting',7)
+    if not ToolDeretore.endswith('hcaenc.exe'):
+        ERROR.ErrorReport('setting',6)
+    if ToolCritool=='':
+        ERROR.ErrorReport('setting',7)
         return
-    if not critool.endswith('index.js'):
-        ERROR.ERRORReport('setting',8)
-    if key=='':
-        ERROR.ERRORReport('setting',9)
+    if not ToolCritool.endswith('index.js'):
+        ERROR.ErrorReport('setting',8)
+    if AcbKey=='':
+        ERROR.ErrorReport('setting',9)
         return
-    if sat=='':
-        ERROR.ERRORReport('setting',10)
+    if ToolSAT=='':
+        ERROR.ErrorReport('setting',10)
         return
-    if not sat.endswith('AcbEditor.exe'):
-        ERROR.ERRORReport('setting',11)
+    if not ToolSAT.endswith('AcbEditor.exe'):
+        ERROR.ErrorReport('setting',11)
         return
 
     #檢查path
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path=path+'\\'
-        dirlist=os.listdir(path)
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path=Path+'\\'
 
         #讀取acb檔並解密
-        for dir in dirlist:
-            filelist=os.listdir(path+dir)
-            for file in filelist:
-                if file.endswith('.acb'):
-                    target_acb=path+dir+'\\'+file
-                    print(f'[INFO] Now reading {target_acb}')
-                    if tool.read_setting('PreviewTime','GetPreviewTime').lower()=='true':
-                        if int(file[7:])<10000:
-                            tool.PreviewTimeget(file[5:9],target_acb)
-                    tmpdir=(path+dir+'\\'+file).replace('.acb','\\')
-            os.system(f'node {critool} acb2wavs -k {key} {target_acb} ')
-            tmplist=os.listdir(tmpdir)
-            filecount=len(tmplist)
-            tmplist.sort(key=lambda x:int(x.split('.')[0].split('_')[1]))
+        for Dir in os.listdir(Path):
+            for File in os.listdir(Path+Dir):
+                if File.endswith('.acb'):
+                    TargetAcb=Path+Dir+'\\'+File
+                    print(f'[INFO] Now reading {TargetAcb}')
+                    if tool.ReadSetting('PreviewTime','GetPreviewTime').lower()=='true':
+                        if int(File[7:])<10000:
+                            tool.PreviewTimeget(File[5:9],TargetAcb)
+                    TempDir=(Path+Dir+'\\'+File).replace('.acb','\\')
+            os.system(f'node {ToolCritool} acb2wavs -k {AcbKey} {TargetAcb} ')
+            TempList=os.listdir(TempDir)
+            FileCount=len(TempList)
+            TempList.sort(key=lambda x:int(x.split('.')[0].split('_')[1]))
 
             #重新編號命名
-            for i in range(0,filecount):
-                nowfile=tmpdir+tmplist[i]
-                if i<=9:
-                    newname=tmpdir+'0000'+str(i)+'_streaming.wav'
+            for Num in range(0,FileCount):
+                NowFile=TempDir+TempList[Num]
+                if Num<=9:
+                    NewFileName=TempDir+'0000'+str(Num)+'_streaming.wav'
                 else:
-                    newname=tmpdir+'000'+str(i)+'_streaming.wav'
-                os.rename(nowfile,newname)
-                os.system(f'{deretore} {newname}')
-            print(f'[INFO] {target_acb} Convert success')    
+                    NewFileName=TempDir+'000'+str(Num)+'_streaming.wav'
+                os.rename(NowFile,NewFileName)
+                os.system(f'{ToolDeretore} {NewFileName}')
+            print(f'[INFO] {TargetAcb} Convert success')    
         
             #刪除轉換前檔案
-            tmplist=os.listdir(tmpdir)
-            for file in tmplist:
-                if file.endswith('.wav'):
-                    os.remove(tmpdir+file)    
+            TempList=os.listdir(TempDir)
+            for File in TempList:
+                if File.endswith('.wav'):
+                    os.remove(TempDir+File)    
             
             #重新包裝
-            os.system(f'{sat} {tmpdir[:-1]}')
-            shutil.rmtree(tmpdir)
+            os.system(f'{ToolSAT} {TempDir[:-1]}')
+            shutil.rmtree(TempDir)
 
             #Save PreviewTime
-            if tool.read_setting('PreviewTime','PreviewTimeSave').lower()=='true':
+            if tool.ReadSetting('PreviewTime','PreviewTimeSave').lower()=='true':
                 tool.SavePreviewTime()
 
         print('[SUCCESS] CueFile convert all done!')    
     else:
-        ERROR.ERRORReport('cueFile',99)
+        ERROR.ErrorReport('cueFile',99)
         return
 
 
 
 if __name__=='__main__':
-    path=str(input('path:'))
-    cue(path)
+    Cue(str(input('path:')))

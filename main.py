@@ -5,7 +5,7 @@ import os
 
 import dev.module as module
 
-def main(Path:str):
+def Main(Path:str):
     
     # Make sure the path entered by the user is correct.
     if os.path.isdir(Path):
@@ -18,22 +18,22 @@ def main(Path:str):
         module.tool.InitPreviewTimeList()
 
         # Read the setting and call the transfer program
-        if module.tool.read_setting('Switch','cue')=='True':
-            module.cue.cue(Path+'cueFile')
-        if module.tool.read_setting('Switch','chara')=='True':
-            module.chara.chara(Path+'chara')
-        if module.tool.read_setting('Switch','event')=='True':
-            module.event.event(Path+'event')
-        if module.tool.read_setting('Switch','map')=='True':
-            module.map.map(Path+'map')
-        if module.tool.read_setting('Switch','music')=='True':
-            module.music.music(Path+'music')
-        if module.tool.read_setting('Switch','course')=='True':
-            module.course.course(Path+'course')
+        if module.tool.ReadSetting('Switch','cue')=='True':
+            module.cue.Cue(Path+'cueFile')
+        if module.tool.ReadSetting('Switch','chara')=='True':
+            module.chara.Chara(Path+'chara')
+        if module.tool.ReadSetting('Switch','event')=='True':
+            module.event.Event(Path+'event')
+        if module.tool.ReadSetting('Switch','map')=='True':
+            module.map.Map(Path+'map')
+        if module.tool.ReadSetting('Switch','music')=='True':
+            module.music.Music(Path+'music')
+        if module.tool.ReadSetting('Switch','course')=='True':
+            module.course.Course(Path+'course')
 
         print('[INFO]Convert completed')
     else:
-        module.ERROR.ERRORReport('root',99)
+        module.ERROR.ErrorReport('root',99)
         return
 
 if __name__=='__main__':
@@ -47,4 +47,4 @@ if __name__=='__main__':
             os.system('PAUSE')
             break
         else:
-            main(Command)
+            Main(Command)

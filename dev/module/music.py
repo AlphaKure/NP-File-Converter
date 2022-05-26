@@ -9,144 +9,143 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-def music(path:str):
+def Music(Path:str):
     '''
     path=Path to music folder
     '''
 
     #需不需要修改
-    fL_flag=tool.read_setting('Detail','music_fix_firstLock')
-    dF_flag=tool.read_setting('Detail','music_fix_disableFlag')
+    EnableFixFirstLock=tool.ReadSetting('Detail','music_fix_firstLock')
+    EnableFixDisableFlag=tool.ReadSetting('Detail','music_fix_disableFlag')
 
 
     #檢查路徑
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path = path+'\\'
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path = Path+'\\'
     
         #開檔處理
-        dirlist=os.listdir(path)
-        for dir in dirlist:
+        for Dir in os.listdir(Path):
 
-            ULTIMA=False
-            nowfile=path+dir+'\Music.xml'
-            print(f'[INFO] Now reading {nowfile}')
+            HaveUltima=False
+            NowFile=Path+Dir+'\Music.xml'
+            print(f'[INFO] Now reading {NowFile}')
             try:
-                with open(nowfile, 'r', encoding='utf-8')as f:
-                    data = f.read()
-                    data = BeautifulSoup(data, 'xml')
+                with open(NowFile, 'r', encoding='utf-8')as File:
+                    Data = File.read()
+                    Data = BeautifulSoup(Data, 'xml')
             except:
-                ERROR.ERRORReport(nowfile,4)
+                ERROR.ErrorReport(NowFile,4)
                 return
                 
             #檢查disableFlag和firstLock
-            if fL_flag=='True':
-                if data.disableFlag.string=='true':
-                    data.disableFlag.string='false'
-                    print(f'[SUCCESS] {nowfile} disableFlag fix!')
-            if dF_flag=='True':
-                if data.firstLock.string=='true':
-                    data.firstLock.string='false'
-                    print(f'[SUCCESS] {nowfile} firstLock disable!')
+            if EnableFixFirstLock=='True':
+                if Data.disableFlag.string=='true':
+                    Data.disableFlag.string='false'
+                    print(f'[SUCCESS] {NowFile} disableFlag fix!')
+            if EnableFixDisableFlag=='True':
+                if Data.firstLock.string=='true':
+                    Data.firstLock.string='false'
+                    print(f'[SUCCESS] {NowFile} firstLock disable!')
             
 
             #是否有ULTIMA譜面
-            if data.enableUltima.string=='true':
-                ULTIMA=True
+            if Data.enableUltima.string=='true':
+                HaveUltima=True
             
 
             #依照有無ULTIMA進行格式修改
-            if ULTIMA:
-                dataU=False
-                data.releaseTagName.id.string='12'
-                data.releaseTagName.str.string='v2 2.00.00'
-                dataName=data.dataName.string
-                dataName=dataName[:5]+'5'+dataName[6:]
-                data.dataName.string=dataName
-                newnumber=dataName[5:]
-                data.find('name').id.string=newnumber
-                data.find('name').str.string=data.find('name').str.string+'(ULTIMA)'
-                data.genreNames.list.StringID.id.string='100'
-                data.genreNames.list.StringID.str.string='ULTIMA'
-                for musicdata in data.find_all('MusicFumenData'):
-                    id=musicdata.id.string
-                    if id=='4' and musicdata.str.string=='Ultima':
-                        dataU=True
-                        level=musicdata.level.string
-                        Dec=musicdata.levelDecimal.string
-                        musicdata.decompose()
-                    elif id=='5':
-                        musicdata.id.string='4'
-                        musicdata.str.string='ID_04'
+            if HaveUltima:
+                DataUltima=False
+                Data.releaseTagName.id.string='12'
+                Data.releaseTagName.str.string='v2 2.00.00'
+                DataName=Data.dataName.string
+                DataName=DataName[:5]+'5'+DataName[6:]
+                Data.dataName.string=DataName
+                NewNumber=DataName[5:]
+                Data.find('name').id.string=NewNumber
+                Data.find('name').str.string=Data.find('name').str.string+'(ULTIMA)'
+                Data.genreNames.list.StringID.id.string='100'
+                Data.genreNames.list.StringID.str.string='ULTIMA'
+                for MusicData in Data.find_all('MusicFumenData'):
+                    MusicDataID=MusicData.id.string
+                    if MusicDataID=='4' and MusicData.str.string=='Ultima':
+                        DataUltima=True #有Ultime 將Ultima資料緩存
+                        UltimaLevel=MusicData.level.string
+                        UltimaDec=MusicData.levelDecimal.string
+                        MusicData.decompose()
+                    elif MusicDataID=='5':
+                        MusicData.id.string='4'
+                        MusicData.str.string='ID_04'
                     else:
-                        musicdata.str.string='ID_0'+id
-                        if id!='3':
-                            musicdata.enable.string='false'
-                            musicdata.level.string='0'
-                            musicdata.levelDecimal.string='0'
-                data.jaketFile.path.string='CHU_UI_Jacket_'+newnumber+'.dds'
+                        MusicData.str.string='ID_0'+MusicDataID
+                        if MusicDataID!='3':
+                            MusicData.enable.string='false'
+                            MusicData.level.string='0'
+                            MusicData.levelDecimal.string='0'
+                Data.jaketFile.path.string='CHU_UI_Jacket_'+NewNumber+'.dds'
 
 
                 #第二次搜尋 將master資料以Ultima資料覆蓋
-                for musicdata in data.find_all('MusicFumenData'):
-                    id=musicdata.id.string
-                    if id=='3':
-                        if dataU:
-                            musicdata.level.string=level
-                            musicdata.levelDecimal.string=Dec
-                            musicdata.file.path.string=newnumber+'_04.c2s'
+                for MusicData in Data.find_all('MusicFumenData'):
+                    MusicDataID=MusicData.id.string
+                    if MusicDataID=='3':
+                        if DataUltima:
+                            MusicData.level.string=UltimaLevel
+                            MusicData.levelDecimal.string=UltimaDec
+                            MusicData.file.path.string=NewNumber+'_04.c2s'
                     else:
-                        musicdata.path.string=newnumber+'_0'+id+'.c2s'
+                        MusicData.path.string=NewNumber+'_0'+MusicDataID+'.c2s'
 
             #無ULTIMA譜面     
             else:
-                for musicdata in data.find_all('MusicFumenData'):
-                    id=musicdata.id.string
-                    if id=='4' and musicdata.str.string=='Ultima':
-                        musicdata.decompose()
-                    elif id=='5':
-                        musicdata.id.string='4'
-                        musicdata.str.string='ID_04'
+                for MusicData in Data.find_all('MusicFumenData'):
+                    MusicDataID=MusicData.id.string
+                    if MusicDataID=='4' and MusicData.str.string=='Ultima':
+                        MusicData.decompose()
+                    elif MusicDataID=='5':
+                        MusicData.id.string='4'
+                        MusicData.str.string='ID_04'
                     else:
-                        musicdata.str.string='ID_0'+id
+                        MusicData.str.string='ID_0'+MusicDataID
             
             #以下為共同修改
-            rightinfo=BeautifulSoup('<rightsInfoName><id>0</id><str>なし</str><data /></rightsInfoName>','xml')
+            RightInfo=BeautifulSoup('<rightsInfoName><id>0</id><str>なし</str><data /></rightsInfoName>','xml')
 
             #PreviewTime
-            if tool.read_setting('PreviewTime','GetPreviewTime').lower()=='false':
-                preview_S=BeautifulSoup('<previewStartTime>50000</previewStartTime>','xml')
-                preview_E=BeautifulSoup('<previewEndTime>75000</previewEndTime>','xml')
+            if tool.ReadSetting('PreviewTime','GetPreviewTime').lower()=='false':
+                PreviewStartTag=BeautifulSoup('<previewStartTime>50000</previewStartTime>','xml')
+                PreviewEndTag=BeautifulSoup('<previewEndTime>75000</previewEndTime>','xml')
             else:
-                Preview_ST,Preview_ET=tool.FindPreviewTime(data.find('jaketFile').path.string[14:18])
-                preview_S=BeautifulSoup('<previewStartTime>'+Preview_ST+'</previewStartTime>','xml')
-                preview_E=BeautifulSoup('<previewEndTime>'+Preview_ET+'</previewEndTime>','xml')
-            if not data.find('rightsInfoName'):
-                data.find('name').insert_after(rightinfo)
-            if not data.find('previewStartTime'):
-                data.find('cueFileName').insert_after(preview_S)
-                data.find('previewStartTime').insert_after(preview_E)
+                StartTime,EndTime=tool.FindPreviewTime(Data.find('jaketFile').path.string[14:18])
+                PreviewStartTag=BeautifulSoup('<previewStartTime>'+StartTime+'</previewStartTime>','xml')
+                PreviewEndTag=BeautifulSoup('<previewEndTime>'+EndTime+'</previewEndTime>','xml')
+            if not Data.find('rightsInfoName'):
+                Data.find('name').insert_after(RightInfo)
+            if not Data.find('previewStartTime'):
+                Data.find('cueFileName').insert_after(PreviewStartTag)
+                Data.find('previewStartTime').insert_after(PreviewEndTag)
 
-            if ULTIMA:
-                count=0
-                base=path+dir
-                nowdir=path+dir+'\\'
-                for file in os.listdir(nowdir):
-                    if file.endswith('.c2s'):
-                        os.rename(nowdir+file,nowdir+f'{newnumber}_0{count}.c2s')
-                        count+=1
-                    elif file.endswith('.dds'):
-                        os.rename(nowdir+file,nowdir+f'CHU_UI_Jacket_{newnumber}.dds')
-                os.rename(base,path+dataName)
-                nowfile=path+dataName+'\Music.xml'
+            if HaveUltima:
+                Count=0
+                Base=Path+Dir
+                NowDir=Path+Dir+'\\'
+                for File in os.listdir(NowDir):
+                    if File.endswith('.c2s'):
+                        os.rename(NowDir+File,NowDir+f'{NewNumber}_0{Count}.c2s')
+                        Count+=1
+                    elif File.endswith('.dds'):
+                        os.rename(NowDir+File,NowDir+f'CHU_UI_Jacket_{NewNumber}.dds')
+                os.rename(Base,Path+DataName)
+                NowFile=Path+DataName+'\Music.xml'
 
                 
-            with open(nowfile, 'w', encoding='utf-8')as f:
-                f.write(str(data))
-                f.close()
-            tool.XMLFormat(nowfile) 
+            with open(NowFile, 'w', encoding='utf-8')as File:
+                File.write(str(Data))
+                File.close()
+            tool.XMLFormat(NowFile) 
 
-            print(f'[INFO] {nowfile} Convert success')   
+            print(f'[INFO] {NowFile} Convert success')   
 
             '''
             print(data)
@@ -155,11 +154,11 @@ def music(path:str):
                         
                 
     else:
-        ERROR.ERRORReport('music',99)
+        ERROR.ErrorReport('music',99)
         return
 
                 
                 
         
 if __name__=='__main__':
-    music(str(input()))
+    Music(str(input()))

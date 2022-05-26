@@ -9,42 +9,41 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-def event(path:str):
+def Event(Path:str):
     '''
     path=Path to event folder
     '''
     #檢查路徑
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path = path+'\\'
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path = Path+'\\'
 
         #開檔處理
-        dirlist=os.listdir(path)
-        for dir in dirlist:
-            nowfile=path+dir+'\Event.xml'
-            print(f'[INFO] Now reading {nowfile}')    
+        for Dir in os.listdir(Path):
+            NowFile=Path+Dir+'\Event.xml'
+            print(f'[INFO] Now reading {NowFile}')    
             try:
-                with open(nowfile, 'r', encoding='utf-8')as f:
-                    data = f.read()
-                    data = BeautifulSoup(data, 'xml')
-                    f.close()
+                with open(NowFile, 'r', encoding='utf-8')as File:
+                    Data = File.read()
+                    Data = BeautifulSoup(Data, 'xml')
+                    File.close()
             except:
-                ERROR.ERRORReport(nowfile,4)
+                ERROR.ErrorReport(NowFile,4)
                 return
         
-            if data.alwaysOpen.string=='false':
-                data.alwaysOpen.string='true'
-                print(f'[SUCCESS] {nowfile} always open!')
+            if Data.alwaysOpen.string=='false':
+                Data.alwaysOpen.string='true'
+                print(f'[SUCCESS] {NowFile} always open!')
 
 
 
             #寫檔
-            with open(nowfile, 'w', encoding='utf-8')as f:
-                f.write(str(data))
-                f.close()
+            with open(NowFile, 'w', encoding='utf-8')as File:
+                File.write(str(Data))
+                File.close()
 
-            tool.XMLFormat(nowfile)
-            print(f'[INFO] {nowfile} Convert success')        
+            tool.XMLFormat(NowFile)
+            print(f'[INFO] {NowFile} Convert success')        
         
         print('[SUCCESS] Event convert all done!')
                 
@@ -52,8 +51,8 @@ def event(path:str):
 
 
     else:
-        ERROR.ERRORReport('event',99)
+        ERROR.ErrorReport('event',99)
         return
 
 if __name__=='__main__':
-    event(str(input()))
+    Event(str(input()))

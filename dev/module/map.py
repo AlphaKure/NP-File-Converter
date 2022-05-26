@@ -10,98 +10,97 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-def cgauge_set(gauge:int):
+def GaugeSet(GaugeCount:int):
     '''
     gauge:gauge level
     cgauge:1、2、2、3、3、4、4、5、5、6、6...
     '''
-    if gauge==0:
+    if GaugeCount==0:
         return 0
-    elif gauge>0 and gauge<3:
+    elif GaugeCount>0 and GaugeCount<3:
         return 1
-    elif gauge>=3 and gauge<5:
+    elif GaugeCount>=3 and GaugeCount<5:
         return 2
-    elif gauge>=5 and gauge<7:
+    elif GaugeCount>=5 and GaugeCount<7:
         return 3
-    elif gauge>=7 and gauge<9:
+    elif GaugeCount>=7 and GaugeCount<9:
         return 4
-    elif gauge>=9 :
+    elif GaugeCount>=9 :
         return 5
 
-def map(path:str):
+def Map(Path:str):
     '''
     path=Path to map folder
     '''
-    gauge=0
+    GaugeCount=0
     
 
     #開啟cgauge
-    with open('dev/data/cgauge.json','r',encoding='utf-8')as f:
-        cgauge=ujson.load(f)
-        f.close()
+    with open('dev/data/cgauge.json','r',encoding='utf-8')as File:
+        GaugeData=ujson.load(File)
+        File.close()
 
     #檢查路徑
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path = path+'\\'
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path = Path+'\\'
 
         #開檔處理
-        dirlist=os.listdir(path)
-        for dir in dirlist:
-            nowfile=path+dir+'\Map.xml'
-            print(f'[INFO] Now reading {nowfile}')
+        for Dir in os.listdir(Path):
+            NowFile=Path+Dir+'\Map.xml'
+            print(f'[INFO] Now reading {NowFile}')
             try:
-                with open(nowfile, 'r', encoding='utf-8')as f:
-                    data = f.read()
-                    data = BeautifulSoup(data, 'xml')
-                    f.close()
+                with open(NowFile, 'r', encoding='utf-8')as File:
+                    Data = File.read()
+                    Data = BeautifulSoup(Data, 'xml')
+                    File.close()
             except:
-                ERROR.ERRORReport(nowfile,4)
+                ERROR.ErrorReport(NowFile,4)
                 return
 
             #修改分類
-            OriFilter=data.find('mapFilterID').str.string
+            OriFilter=Data.find('mapFilterID').str.string
             if OriFilter=='Current':
-                newFiltersid='0'
-                newFilterstr='Current'
-                newFilterdata='現行バージョン'
+                NewFiltersID='0'
+                NewFilterStr='Current'
+                NewFilterData='現行バージョン'
             elif OriFilter=='Collaboration':
-                newFiltersid='1'
-                newFilterstr='Collaboration'
-                newFilterdata='コラボ系'
+                NewFiltersID='1'
+                NewFilterStr='Collaboration'
+                NewFilterData='コラボ系'
             elif OriFilter=='Sega':
-                newFiltersid='2'
-                newFilterstr='Sega'
-                newFilterdata='自社'
+                NewFiltersID='2'
+                NewFilterStr='Sega'
+                NewFilterData='自社'
             elif OriFilter=='Other':
-                newFiltersid='3'
-                newFilterstr='Other'
-                newFilterdata='その他'
-            data.mapFilterID.id.string=newFiltersid
-            data.mapFilterID.str.string=newFilterstr
-            data.mapFilterID.data.string=newFilterdata
+                NewFiltersID='3'
+                NewFilterStr='Other'
+                NewFilterData='その他'
+            Data.mapFilterID.id.string=NewFiltersID
+            Data.mapFilterID.str.string=NewFilterStr
+            Data.mapFilterID.data.string=NewFilterData
             #修改標籤名稱
-            for tags in data.find_all('gaugeName'):
-                tags.name='normalGaugeName'
+            for Tags in Data.find_all('gaugeName'):
+                Tags.name='normalGaugeName'
             
-            lg=0
+            NewGaugeType=0
             #課題
-            for info in data.find_all('MapDataAreaInfo'):
-                if info.musicName.id.string!='-1':
-                    if not info.find('challengeGaugeName'):
-                        lg=cgauge_set(gauge)
-                        newtag=BeautifulSoup('<challengeGaugeName><id>'+cgauge[lg]['id']+'</id><str>'+cgauge[lg]['id']+'</str><data /></challengeGaugeName>','xml')
-                        info.append(newtag)
-                        gauge+=1
+            for MapData in Data.find_all('MapDataAreaInfo'):
+                if MapData.musicName.id.string!='-1':
+                    if not MapData.find('challengeGaugeName'):
+                        NewGaugeType=GaugeSet(GaugeCount)
+                        NewTag=BeautifulSoup('<challengeGaugeName><id>'+GaugeData[NewGaugeType]['id']+'</id><str>'+GaugeData[NewGaugeType]['id']+'</str><data /></challengeGaugeName>','xml')
+                        MapData.append(NewTag)
+                        GaugeCount+=1
 
         
             #寫檔
-            with open(nowfile, 'w', encoding='utf-8')as f:
-                f.write(str(data))
-                f.close()
-            tool.XMLFormat(nowfile)
+            with open(NowFile, 'w', encoding='utf-8')as File:
+                File.write(str(Data))
+                File.close()
+            tool.XMLFormat(NowFile)
 
-            print(f'[INFO] {nowfile} Convert success')     
+            print(f'[INFO] {NowFile} Convert success')     
         
         print('[SUCCESS] Map convert all done!')
                 
@@ -109,8 +108,8 @@ def map(path:str):
 
 
     else:
-        ERROR.ERRORReport('map',99)
+        ERROR.ErrorReport('map',99)
         return
     
 if __name__=='__main__':
-    map(str(input()))
+    Map(str(input()))

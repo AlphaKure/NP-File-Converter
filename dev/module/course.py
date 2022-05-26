@@ -9,56 +9,56 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-def course(path:str):
+def Course(Path:str):
 
     #檢查路徑
-    if os.path.isdir(path):
-        if not path.endswith('\\'):
-            path = path+'\\'
+    if os.path.isdir(Path):
+        if not Path.endswith('\\'):
+            Path = Path+'\\'
     
         #開檔處理
-        dirlist=os.listdir(path)
-        for dir in dirlist:
+        for Dir in os.listdir(Path):
 
-            nowfile=path+dir+'\Course.xml'
+            NowFile=Path+Dir+'\Course.xml'
             try:
-                with open(nowfile, 'r', encoding='utf-8')as f:
-                    data = f.read()
-                    data = BeautifulSoup(data, 'xml')
+                with open(NowFile, 'r', encoding='utf-8')as File:
+                    Data = File.read()
+                    Data = BeautifulSoup(Data, 'xml')
+                    File.close()
             except:
-                ERROR.ERRORReport(nowfile,4)
+                ERROR.ErrorReport(NowFile,4)
                 return
             
             #將tag內資料修改為Para支援的
-            for tag in data.find_all('CourseMusicDataInfo'):
-                if tag.musicDiff.data.string=='BASIC':
-                    tag.musicDiff.id.string='0'
-                    tag.musicDiff.str.string='ID_00'
-                elif tag.musicDiff.data.string=='ADVANCE':
-                    tag.musicDiff.id.string='1'
-                    tag.musicDiff.str.string='ID_01'
-                elif tag.musicDiff.data.string=='EXPERT':
-                    tag.musicDiff.id.string='2'
-                    tag.musicDiff.str.string='ID_02'
-                elif tag.musicDiff.data.string=='MASTER':
-                    tag.musicDiff.id.string='3'
-                    tag.musicDiff.str.string='ID_03'
-                elif tag.musicDiff.data.string=='WORLD\'S END':
-                    tag.musicDiff.id.string='4'
-                    tag.musicDiff.str.string='ID_04'
-                elif tag.musicDiff.data.string=='ULTIMA':
-                    tag.musicDiff.id.string='3'
-                    tag.musicDiff.str.string='ID_03'
-                    tag.musicName.id.string='5'+tag.musicName.id.string
+            for CourseMusicData in Data.find_all('CourseMusicDataInfo'):
+                if CourseMusicData.musicDiff.data.string=='BASIC':
+                    CourseMusicData.musicDiff.id.string='0'
+                    CourseMusicData.musicDiff.str.string='ID_00'
+                elif CourseMusicData.musicDiff.data.string=='ADVANCE':
+                    CourseMusicData.musicDiff.id.string='1'
+                    CourseMusicData.musicDiff.str.string='ID_01'
+                elif CourseMusicData.musicDiff.data.string=='EXPERT':
+                    CourseMusicData.musicDiff.id.string='2'
+                    CourseMusicData.musicDiff.str.string='ID_02'
+                elif CourseMusicData.musicDiff.data.string=='MASTER':
+                    CourseMusicData.musicDiff.id.string='3'
+                    CourseMusicData.musicDiff.str.string='ID_03'
+                elif CourseMusicData.musicDiff.data.string=='WORLD\'S END':
+                    CourseMusicData.musicDiff.id.string='4'
+                    CourseMusicData.musicDiff.str.string='ID_04'
+                elif CourseMusicData.musicDiff.data.string=='ULTIMA':
+                    CourseMusicData.musicDiff.id.string='3'
+                    CourseMusicData.musicDiff.str.string='ID_03'
+                    CourseMusicData.musicName.id.string='5'+CourseMusicData.musicName.id.string
             
             #print(data)
 
-            with open(nowfile, 'w', encoding='utf-8')as f:
-                f.write(str(data))
-                f.close()
-            tool.XMLFormat(nowfile)
+            with open(NowFile, 'w', encoding='utf-8')as File:
+                File.write(str(Data))
+                File.close()
+            tool.XMLFormat(NowFile)
 
-            print(f'[INFO] {nowfile} Convert success')   
+            print(f'[INFO] {NowFile} Convert success')   
 
 if __name__=='__main__':
-    course(str(input()))
+    Course(str(input()))
