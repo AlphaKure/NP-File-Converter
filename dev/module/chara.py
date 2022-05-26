@@ -10,7 +10,6 @@ except ModuleNotFoundError:
     import dev.module.tool as tool
 
 
-
 def Chara(Path: str):
     # The main function of the program is to convert the new version of Chara.xml to the old compatible version.
     # Path:Path to chara folder
@@ -41,7 +40,7 @@ def Chara(Path: str):
         ERROR.ErrorReport('chara', 3)
         return
 
-    # Check Path 
+    # Check Path
     if os.path.isdir(Path):
         if not Path.endswith('\\'):
             Path = Path+'\\'
@@ -61,10 +60,10 @@ def Chara(Path: str):
                 except:
                     ERROR.ErrorReport(NowFile, 4)
                     return
-                
+
                 # Read ranks tag
-                ranks = Data.find('ranks')
-                for CharaRankData in ranks.find_all('CharaRankData'):
+                Ranks = Data.find('ranks')
+                for CharaRankData in Ranks.find_all('CharaRankData'):
                     SkillID = -1
                     # Remove unwanted tags
                     if not CharaRankData.find('type').string == '1' or CharaRankData.find('index').string == '1':
@@ -129,7 +128,7 @@ def Chara(Path: str):
                         break
                     else:
                         continue
-                
+
                 # If not found, add a new tag and write it to WorkSort.xml
                 if not IsFind:
                     NewWorkTag = BeautifulSoup(
