@@ -23,13 +23,9 @@
 
 <p>
 
-&emsp;設定改用ini
-
-&emsp;程式碼整理
-
 &emsp;翻譯文件及與語言選項
 
-&emsp;cue previewTime數值獲取
+&emsp;cue previewTime數值獲取 (未測試)
 </p>
 
 ## 使用方法
@@ -111,7 +107,7 @@ python -u "d:\DeskTop\NP-File-Converter\main.py"
 
 &emsp;&emsp; D:\Desktop\A999
 	
-&emsp; 如果不想要進行某些轉換，可以輸入"setting"，即可進入調整設定，把不想要或想要執行的項目進行修改。
+&emsp; 如果不想要進行某些轉換，可以在ini中Switch的部分進行修改。
 
 </p>
 
